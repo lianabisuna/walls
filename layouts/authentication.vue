@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col min-h-screen font-inter font-medium text-dark text-sm">
     <!-- Header -->
-		<header class="flex items-center justify-between h-16 bg-primary-500 border-b border-primary-200 px-10">
+		<header class="hidden md:flex items-center justify-between h-16 bg-primary-500 border-b border-primary-200 px-5 md:px-10">
       <!-- Logo -->
       <AppLogo></AppLogo>
 

@@ -7,12 +7,14 @@ definePageMeta({
 <template>
   <NuxtLayout name="authentication">
     <div class="flex flex-grow items-center justify-center">
-      <div class="bg-secondary-500 rounded-sm px-12 py-14 md:min-w-[40rem]">
-        <div class="text-2xl/tight font-semibold">
+      <div class="bg-secondary-500 rounded-sm px-5 md:px-12 py-8 md:py-14 md:min-w-[40rem] w-full md:w-fit h-full md:h-fit">
+        <AppLogo class="block md:hidden text-primary-500 md:text-light"></AppLogo>
+
+        <div class="text-2xl/tight font-semibold mt-8 md:mt-0">
           Become a vandal.<br>Write on walls or create your own!
         </div>
 
-        <div class="grid grid-cols-2 gap-5 mt-12">
+        <div class="grid md:grid-cols-2 gap-5 mt-12">
           <AppFormInput
             label="Username"
             background-color="light"
@@ -35,7 +37,7 @@ definePageMeta({
           </AppFormInput>
         </div>
 
-        <div class="grid grid-cols-2 gap-5 mt-12">
+        <div class="grid md:grid-cols-2 gap-5 mt-12">
           <!-- Register -->
           <AppButton
             color="dark"

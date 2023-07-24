@@ -1,5 +1,5 @@
 <template>
-	<div class="font-bold text-lg tracking-tight text-light">
+	<div class="font-black text-lg tracking-tighter text-light uppercase">
 		Walls
 	</div>
 </template>
