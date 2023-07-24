@@ -4,6 +4,7 @@ import type { TailwindColor } from './types'
 
 // Props
 const props = defineProps({
+  backgroundColor: { type: String as PropType<TailwindColor>, default: 'neutral-100' },
   color: { type: String as PropType<TailwindColor>, default: 'primary-500' },
   error: { type: Boolean as PropType<boolean>, default: false },
   success: { type: Boolean as PropType<boolean>, default: false },
@@ -26,11 +27,11 @@ const groupFocusClass = computed(() => {
 
 const sizeClass = computed(() => {
   switch (props.size) {
-		case 'xs': return 'py-1 px-2';
-		case 'sm': return 'py-1.5 px-2.5';
-		case 'lg': return 'py-2.5 px-3.5';
-		case 'xl': return 'py-3 px-4';
-		case 'md': default: return 'py-2 px-3';
+		case 'xs': return 'py-2 px-2';
+		case 'sm': return 'py-2.5 px-2.5';
+		case 'lg': return 'py-3.5 px-3.5';
+		case 'xl': return 'py-4 px-4';
+		case 'md': default: return 'py-3 px-3';
 	}
 })
 
@@ -71,10 +72,11 @@ function onClickContainer() {
       :class="[
         groupFocusClass,
         sizeClass,
+        `bg-${props.backgroundColor} border border-${props.backgroundColor}`,
         { 'opacity-75 pointer-events-none': props.disabled },
         { 'w-full': props.block }
       ]"
-      class="relative flex items-center cursor-text justify-between bg-neutral-50 text-dark rounded-sm border border-neutral-50"
+      class="relative flex items-center cursor-text justify-between text-dark rounded-sm"
     >
       <slot></slot>
     </div>

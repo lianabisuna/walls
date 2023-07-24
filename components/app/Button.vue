@@ -28,10 +28,10 @@ const sizeClass = computed(() => {
   if (!props.icon) {
     switch (props.size) {
       case 'xs': return 'px-3 py-2 text-xs';
-      case 'sm': return 'px-3 py-2 text-sm';
-      case 'lg': return 'px-5 py-3 text-lg';
-      case 'xl': return 'px-6 py-3.5 text-xl';
-      case 'md': default: return 'px-5 py-2.5 text-base';
+      case 'sm': return 'px-3 py-2.5 text-sm';
+      case 'lg': return 'px-5 py-3.5 text-lg';
+      case 'xl': return 'px-6 py-4 text-xl';
+      case 'md': default: return 'px-5 py-3 text-base';
     }
   }
   else {
@@ -50,9 +50,9 @@ const sizeClass = computed(() => {
  */
 const backgroundClass = computed(() => {
   switch (props.variant) {
-    case 'outlined': return `bg-transparent hover:bg-${props.color} active:bg-${props.color}/75 active:shadow`;
+    case 'outlined': return `bg-transparent hover:bg-${props.color} active:bg-${props.color}/75`;
     case 'text': return 'bg-transparent';
-    case 'solid': default: return `bg-${props.color} hover:bg-${props.color}/90 active:bg-${props.color}/75 active:shadow`;
+    case 'solid': default: return `bg-${props.color} hover:bg-${props.color}/90 active:bg-${props.color}/75`;
   }
 });
 

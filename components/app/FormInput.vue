@@ -12,7 +12,8 @@ const props = defineProps({
   type: { type: String as PropType<HTMLInputType>, default: 'text' },
   inputClass: { type: [Array,String] as PropType<ClassBinding>, default: '' },
   /** Form Container */
-  color: { type: String as PropType<TailwindColor>, default: 'blue-500' },
+  backgroundColor: { type: String as PropType<TailwindColor>, default: 'neutral-100' },
+  color: { type: String as PropType<TailwindColor>, default: 'primary-500' },
   error: { type: Boolean as PropType<boolean>, default: false },
   success: { type: Boolean as PropType<boolean>, default: false },
   label: { type: String as PropType<string>, default: '' },
@@ -54,6 +55,7 @@ const sizeClass = computed(() => {
 
 <template>
 	<AppFormContainer
+    :background-color="props.backgroundColor"
     :color="props.color"
     :error="props.error"
     :success="props.success"
