@@ -1,7 +1,19 @@
 <script setup lang="ts">
+import { useAuthStore } from '~/store/authStore';
+import { User } from '@/services';
+
+
 definePageMeta({
   layout: false,
 });
+
+
+const authStore = useAuthStore();
+const { user, setUser } = authStore;
+
+async function handleTest() {
+  console.log(await User.register());
+}
 </script>
 
 <template>
@@ -13,6 +25,11 @@ definePageMeta({
         <div class="text-2xl/tight font-semibold mt-8 md:mt-0">
           Become a vandal.<br>Write on walls or create your own!
         </div>
+        
+        <DevOnly>
+          <p class="text-accent-500">user: {{ user }}</p>
+          <AppButton @click="handleTest">Test</AppButton>
+        </DevOnly>
 
         <div class="grid md:grid-cols-2 gap-5 mt-12">
           <AppFormInput

@@ -16,6 +16,12 @@
     "nuxt-icon": "^0.4.2"
   },
   "dependencies": {
-    "@nuxtjs/google-fonts": "^3.0.1"
+    "@nuxtjs/google-fonts": "^3.0.1",
+    "@pinia/nuxt": "^0.4.11",
+    "axios": "^1.4.0",
+    "pinia": "^2.1.4"
+  },
+  "overrides": {
+    "vue": "latest"
   }
 }

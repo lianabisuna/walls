@@ -2,6 +2,27 @@
 definePageMeta({
   layout: false,
 });
+
+const META = {
+  TITLE: "Walls - Talk behind closed doors",
+  DESCRIPTION: "A digital space where you can about anything under a pseudonym.",
+  IMAGE: "https://example.com/image.png",
+  URL: "https://example.com",
+}
+useSeoMeta({
+  title: META.TITLE,
+  ogTitle: META.TITLE,
+  description: META.DESCRIPTION,
+  ogDescription: META.DESCRIPTION,
+  ogImage: META.IMAGE,
+  ogUrl: META.URL,
+  twitterCard: 'summary_large_image',
+  twitterTitle: META.TITLE,
+  twitterDescription: META.DESCRIPTION,
+  twitterImage: META.IMAGE,
+  keywords: "walls, freedom wall, anonymous, social media, social network, community, message, chat",
+
+})
 </script>
 
 <template>
