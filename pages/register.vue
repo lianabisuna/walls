@@ -68,6 +68,7 @@ const showPasswordConfirmation = ref(false);
       <Form
         @submit="handleSubmit"
         :validation-schema="schema"
+        as=""
       >
         <div class="bg-secondary-500 rounded-sm px-5 md:px-12 py-8 md:py-14 md:min-w-[40rem] w-full md:w-fit h-full md:h-fit">
           <AppLogo class="block md:hidden text-primary-500 md:text-light"></AppLogo>
