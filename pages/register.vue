@@ -57,15 +57,23 @@ const onSubmit = handleSubmit(async (values: Record<any, any>) => {
     const successResponse = data.value as SuccessResponse;
     const errorResponse = error.value?.data as ErrorResponse<any, RegisterForm>;
 
+    // Handle success response
     if (successResponse?.success) {
+      // TO DO: Add message as toast
+      console.log(successResponse.success.message);
+
       // Navigate to login
       navigateTo({ path: '/login' });
       return;
     }
 
+    // Handle error response
     if (errorResponse?.error) {
+      // TO DO: Add message as toast
+      console.log(errorResponse.error.message);
+      
       // Get errors
-      const errorFields = errorResponse?.error.errors;
+      const errorFields = errorResponse.error.errors;
 
       // Set errors
       setErrors({
