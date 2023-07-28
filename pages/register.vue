@@ -39,6 +39,7 @@ const { setErrors, isSubmitting, handleSubmit } = useForm({
 
 const onSubmit = handleSubmit(async (values: Record<any, any>) => {
   try {
+    // Run register API
     const { error, data } = await useBaseFetch('register', {
       method: 'POST',
       body: {
@@ -50,12 +51,12 @@ const onSubmit = handleSubmit(async (values: Record<any, any>) => {
       },
     });
 
-    console.log('data', data.value);
-
-    // Handle error and success response
-    const errorResponse = error.value?.data as ErrorResponse<any, RegisterForm>;
-    const successResponse = data.value as SuccessResponse;
     
+    /** HANDLE API RESPONSE */
+
+    const successResponse = data.value as SuccessResponse;
+    const errorResponse = error.value?.data as ErrorResponse<any, RegisterForm>;
+
     if (successResponse?.success) {
       // Navigate to login
       navigateTo({ path: '/login' });
