@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { AxiosError } from 'axios';
 import * as Yup from 'yup';
 
 
@@ -9,7 +10,6 @@ definePageMeta({
 
 /** FORM VALIDATION */
 
-// Data
 const schema = Yup.object({
   username: Yup
     .string()
@@ -32,32 +32,57 @@ const schema = Yup.object({
     .oneOf([Yup.ref('password')], 'Password must match.'),
 });
 
-// Function
-async function handleSubmit(values: Record<any, any>) {
-  console.log('submitted', values);
-  // try {
-  //   const { data, error, pending, status, refresh } = await useBaseFetch('register', {
-  //     method: 'POST',
-  //     body: {
-  //       username: 'Liana',
-  //       email: 'lianabisuna@gmail.com',
-  //       password: 'Liana123!',
-  //       password_confirmation: 'Liana123!',
-  //     },
-  //   });
-  //   console.log('fetch:error', error.value);
-  //   console.log('fetch:data', data.value);
-  //   console.log('fetch:pending', pending.value);
-  //   console.log('fetch:status', status.value);
-  // } catch(e) {
-  //   console.error(e);
-  // }
-};
+
+const { setErrors, isSubmitting, handleSubmit } = useForm({
+  validationSchema: schema,
+});
+
+const onSubmit = handleSubmit(async (values: Record<any, any>) => {
+  try {
+    const { error, data } = await useBaseFetch('register', {
+      method: 'POST',
+      body: {
+        first_name: values.username, // TO DO: Change to "username"
+        last_name: values.username, // TO REMOVE
+        email: values.email,
+        password: values.password,
+        password_confirmation: values.password_confirmation,
+      },
+    });
+
+    console.log('data', data.value);
+
+    // Handle error and success response
+    const errorResponse = error.value?.data as ErrorResponse<any, RegisterForm>;
+    const successResponse = data.value as SuccessResponse;
+    
+    if (successResponse?.success) {
+      // Navigate to login
+      navigateTo({ path: '/login' });
+      return;
+    }
+
+    if (errorResponse?.error) {
+      // Get errors
+      const errorFields = errorResponse?.error.errors;
+
+      // Set errors
+      setErrors({
+        username: errorFields?.first_name || errorFields?.last_name,
+        email: errorFields?.email,
+        password: errorFields?.password,
+        password_confirmation: errorFields?.password_confirmation,
+      });
+    }
+  } catch(e) {
+    console.error(e);
+    console.log('CATCH', e);
+  }
+});
 
 
 /** TOGGLE PASSWORD */
 
-// Data
 const showPassword = ref(false);
 const showPasswordConfirmation = ref(false);
 </script>
@@ -65,11 +90,7 @@ const showPasswordConfirmation = ref(false);
 <template>
   <NuxtLayout name="authentication">
     <div class="flex flex-grow items-center justify-center">
-      <Form
-        @submit="handleSubmit"
-        :validation-schema="schema"
-        as=""
-      >
+      <form @submit="onSubmit">
         <div class="bg-secondary-500 rounded-sm px-5 md:px-12 py-8 md:py-14 md:min-w-[40rem] w-full md:w-fit h-full md:h-fit">
           <AppLogo class="block md:hidden text-primary-500 md:text-light"></AppLogo>
 
@@ -82,6 +103,8 @@ const showPasswordConfirmation = ref(false);
               name="username"
               label="Username"
               border-color="light"
+              :disabled="isSubmitting"
+              :loading="isSubmitting"
             >
             </AppFormInput>
 
@@ -89,12 +112,16 @@ const showPasswordConfirmation = ref(false);
               name="email"
               label="Email"
               border-color="light"
+              :disabled="isSubmitting"
+              :loading="isSubmitting"
             >
             </AppFormInput>
             <AppFormInput
               name="password"
               label="Password"
               border-color="light"
+              :disabled="isSubmitting"
+              :loading="isSubmitting"
               :type="showPassword?'text':'password'"
             >
               <template #append>
@@ -114,6 +141,8 @@ const showPasswordConfirmation = ref(false);
               name="password_confirmation"
               label="Confirm password"
               border-color="light"
+              :disabled="isSubmitting"
+              :loading="isSubmitting"
               :type="showPasswordConfirmation?'text':'password'"
             >
               <template #append>
@@ -135,6 +164,8 @@ const showPasswordConfirmation = ref(false);
             <AppButton
               color="dark"
               type="submit"
+              :disabled="isSubmitting"
+              :loading="isSubmitting"
             >
               Register
             </AppButton>
@@ -157,3 +188,30 @@ const showPasswordConfirmation = ref(false);
     </div>
   </NuxtLayout>
 </template>
+
+<script lang="ts">
+// Types
+interface RegisterForm {
+  first_name: string;
+  last_name: string;
+  username: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+}
+
+export interface ErrorResponse<Data = {}, Errors = {}> {
+  error: {
+    message?: string;
+    errors?: Errors;
+    data?: Data;
+  }
+}
+
+export interface SuccessResponse<Data = {}> {
+  success: { 
+    message: string; 
+    data: Data;
+  };
+}
+</script>
