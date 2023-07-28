@@ -77,7 +77,6 @@ const onSubmit = handleSubmit(async (values: Record<any, any>) => {
     }
   } catch(e) {
     console.error(e);
-    console.log('CATCH', e);
   }
 });
 
