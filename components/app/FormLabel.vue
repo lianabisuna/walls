@@ -15,9 +15,11 @@ const props = defineProps({
 /** CLASSES */
 
 const textClass = computed(() => {
-  if (props.error) return 'text-error-500 group-focus-within:text-error-500';
-  else if (props.success) return 'text-success-500 group-focus-within:text-success-500';
-  else return `text-dark/90 group-focus-within:text-dark`;
+  // if (props.error) return 'text-error-500 group-focus-within:text-error-500';
+  // else if (props.success) return 'text-success-500 group-focus-within:text-success-500';
+  // else return 'text-dark/90 group-focus-within:text-dark';
+
+  return 'text-dark/90 group-focus-within:text-dark';
 });
 
 const sizeClass = computed(() => {

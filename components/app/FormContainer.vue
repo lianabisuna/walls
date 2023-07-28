@@ -4,7 +4,10 @@ import type { TailwindColor } from './types'
 
 // Props
 const props = defineProps({
-  backgroundColor: { type: String as PropType<TailwindColor>, default: 'neutral-100' },
+  name: { type: String as PropType<string>, default: '' },
+  /** Form Container */
+  backgroundColor: { type: String as PropType<TailwindColor>, default: 'light' },
+  borderColor: { type: String as PropType<TailwindColor>, default: 'neutral-500' },
   color: { type: String as PropType<TailwindColor>, default: 'primary-500' },
   error: { type: Boolean as PropType<boolean>, default: false },
   success: { type: Boolean as PropType<boolean>, default: false },
@@ -18,12 +21,6 @@ const props = defineProps({
 
 
 /** CLASSES */
-
-const groupFocusClass = computed(() => {
-  if (props.error) return 'group-focus-within:border-error-500';
-  else if (props.success) return 'group-focus-within:border-success-500';
-  else return `group-focus-within:border-dark`;
-});
 
 const sizeClass = computed(() => {
   switch (props.size) {
@@ -48,47 +45,58 @@ function onClickContainer() {
 </script>
 
 <template>
-	<div
-    ref="containerRef"
-    class="group flex flex-col"
-    :class="[
-      { 'w-full': props.block }
-    ]"
-    @click="onClickContainer"
+  <Field
+    :name="props.name"
+    v-slot="fieldData"
   >
-    <!-- Label -->
-    <AppFormLabel
-      v-if="props.label"
-      :required="props.required"
-      :color="props.color"
-      :error="props.error"
-      :success="props.success"
-      :size="props.size"
-    >
-      {{ props.label }}
-    </AppFormLabel>
-    <!-- Input Container -->
     <div
+      ref="containerRef"
+      class="relative group flex flex-col"
       :class="[
-        groupFocusClass,
-        sizeClass,
-        `bg-${props.backgroundColor} border border-${props.backgroundColor}`,
-        { 'opacity-75 pointer-events-none': props.disabled },
         { 'w-full': props.block }
       ]"
-      class="relative flex items-center cursor-text justify-between text-dark rounded-sm"
+      @click="onClickContainer"
     >
-      <slot></slot>
+      <!-- Label -->
+      <AppFormLabel
+        v-if="props.label"
+        :required="props.required"
+        :color="props.color"
+        :error="props.error || !!fieldData.errorMessage"
+        :success="props.success"
+        :size="props.size"
+      >
+        {{ props.label }}
+      </AppFormLabel>
+      <!-- Input Container -->
+      <div
+        :class="[
+          sizeClass,
+          `bg-${props.backgroundColor}`,
+          props.error || !!fieldData.errorMessage
+            ? 'border border-error-500 group-focus-within:border-error-500'
+            : props.success
+              ? 'border border-success-500 group-focus-within:border-success-500'
+              : `border border-${props.borderColor} group-focus-within:border-dark`,
+          {
+            'opacity-75 pointer-events-none': props.disabled,
+            'w-full': props.block,
+          },
+        ]"
+        class="relative flex items-center cursor-text justify-between text-dark rounded-sm"
+      >
+        <slot v-bind="{ fieldData }"></slot>
+      </div>
+      <!-- Message -->
+      <AppFormMessage
+        v-if="props.message || fieldData.errorMessage"
+        :error="props.error || !!fieldData.errorMessage"
+        :success="props.success"
+      >
+        {{ props.message || fieldData.errorMessage }}
+      </AppFormMessage>
     </div>
-    <!-- Message -->
-    <AppFormMessage
-      v-if="props.message"
-      :error="props.error"
-      :success="props.success"
-    >
-      {{ props.message }}
-    </AppFormMessage>
-  </div>
+  </Field>
 </template>
 
 <script lang="ts">

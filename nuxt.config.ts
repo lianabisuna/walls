@@ -6,6 +6,12 @@ export default defineNuxtConfig({
     '@nuxtjs/google-fonts',
     'nuxt-icon',
     '@pinia/nuxt',
+    [
+      '@vee-validate/nuxt',
+      {
+        autoImports: true,
+      },
+    ],
   ],
   googleFonts: {
     families: {
@@ -14,4 +20,9 @@ export default defineNuxtConfig({
       },
     }
   },
+  runtimeConfig: {
+    public: {
+      baseURL: process.env.BASE_URL || 'https://ec2-18-141-234-79.ap-southeast-1.compute.amazonaws.com/api/',
+    },
+  }
 })

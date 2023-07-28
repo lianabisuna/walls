@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 // Imports
-import type { TailwindColor, ClassBinding } from './types'
+import type { TailwindColor, ClassBinding } from './types';
 
 // Props
 const props = defineProps({
@@ -12,7 +12,8 @@ const props = defineProps({
   type: { type: String as PropType<HTMLInputType>, default: 'text' },
   inputClass: { type: [Array,String] as PropType<ClassBinding>, default: '' },
   /** Form Container */
-  backgroundColor: { type: String as PropType<TailwindColor>, default: 'neutral-100' },
+  backgroundColor: { type: String as PropType<TailwindColor>, default: 'light' },
+  borderColor: { type: String as PropType<TailwindColor>, default: 'neutral-500' },
   color: { type: String as PropType<TailwindColor>, default: 'primary-500' },
   error: { type: Boolean as PropType<boolean>, default: false },
   success: { type: Boolean as PropType<boolean>, default: false },
@@ -55,7 +56,10 @@ const sizeClass = computed(() => {
 
 <template>
 	<AppFormContainer
+    v-slot="{ fieldData }"
+    :name="props.name"
     :background-color="props.backgroundColor"
+    :border-color="props.borderColor"
     :color="props.color"
     :error="props.error"
     :success="props.success"
@@ -70,8 +74,8 @@ const sizeClass = computed(() => {
     <slot name="prepend"></slot>
     <!-- Input -->
     <input
-      :value="modelValue"
-      @input="updateModelValue"
+      :value="fieldData.field.value || modelValue"
+      @input="(e) => {updateModelValue(e); fieldData.field['onUpdate:modelValue']?.(e);}"
       :name="props.name"
       :type="props.type"
       :placeholder="props.placeholder"

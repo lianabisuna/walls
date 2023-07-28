@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAuthStore } from '~/store/authStore';
+
 definePageMeta({
   layout: false,
 });
@@ -21,8 +23,11 @@ useSeoMeta({
   twitterDescription: META.DESCRIPTION,
   twitterImage: META.IMAGE,
   keywords: "walls, freedom wall, anonymous, social media, social network, community, message, chat",
-
 })
+
+
+const authStore = useAuthStore();
+const { user, setUser } = authStore;
 </script>
 
 <template>
@@ -35,7 +40,7 @@ useSeoMeta({
           Welcome back!<br>Catch up with vandals.
         </div>
 
-        <div class="grid gap-5 mt-12">
+        <div class="grid gap-y-7 gap-x-5 mt-12">
           <AppFormInput
             label="Username"
           >
@@ -46,7 +51,7 @@ useSeoMeta({
           </AppFormInput>
         </div>
 
-        <div class="grid gap-5 mt-12">
+        <div class="grid gap-y-7 gap-x-5 mt-12">
           <!-- Register -->
           <AppButton
             color="secondary-500"

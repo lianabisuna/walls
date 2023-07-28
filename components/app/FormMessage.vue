@@ -9,17 +9,24 @@ const props = defineProps({
 /** CLASSES */
 
 const textClass = computed(() => {
-  if (props.error) return 'text-error-500';
-  else if (props.success) return 'text-success-500';
+  if (props.error) return 'text-light';
+  else if (props.success) return 'text-light';
   else return 'text-neutral-500';
+})
+
+const backgroundClass = computed(() => {
+  if (props.error) return 'bg-error-500';
+  else if (props.success) return 'bg-success-500';
+  else return 'bg-light';
 })
 </script>
 
 <template>
   <div
-    class="text-xs mt-1.5"
+    class="absolute left-0 top-full text-xs w-full -mt-0.5 px-1.5 py-0.5 font-normal"
     :class="[
-      textClass
+      textClass,
+      backgroundClass,
     ]"
   >
     <slot></slot>
