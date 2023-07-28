@@ -95,7 +95,17 @@ const sizeClass = computed(() => {
       v-bind="$attrs"
     />
     <!-- Append -->
-    <slot name="append"></slot>
+    <div
+      :class="[
+        props.error || !!fieldData.errorMessage
+            ? 'text-error-500 group-focus-within:text-error-500'
+            : props.success
+              ? 'text-success-500 group-focus-within:text-success-500'
+              : `text-dark/90 group-focus-within:text-dark`,
+      ]"
+    >
+      <slot name="append"></slot>
+    </div>
   </AppFormContainer>
 </template>
 

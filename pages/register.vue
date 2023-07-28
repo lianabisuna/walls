@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { object, string } from 'yup';
+import * as Yup from 'yup';
 
 
 definePageMeta({
@@ -9,15 +9,30 @@ definePageMeta({
 
 /** FORM VALIDATION */
 
-// Schema
-const schema = object({
-  username: string().required(),
-  email: string().required(),
-  password: string().required(),
-  password_confirmation: string().required(),
+// Data
+const schema = Yup.object({
+  username: Yup
+    .string()
+    .required('Username is required.'),
+  email: Yup
+    .string()
+    .required('Email is required.')
+    .email('Enter a valid email.'),
+  password: Yup
+    .string()
+    .required('Password is required.')
+    .min(8, 'Password must be at least 8 characters.')
+    .matches( /[A-Z]/, 'Password must have at least 1 uppercase letter.')
+    .matches( /[a-z]/, 'Password must have at least 1 lowercase letter.')
+    .matches( /[0-9]/, 'Password must have at least 1 numeric character.')
+    .matches( /[*@!#%&()^~{}]/, 'Password must have at least 1 special character.'),
+  password_confirmation: Yup
+    .string()
+    .required('Confirm password is required.')
+    .oneOf([Yup.ref('password')], 'Password must match.'),
 });
 
-// Submission
+// Function
 async function handleSubmit(values: Record<any, any>) {
   console.log('submitted', values);
   // try {
@@ -38,6 +53,13 @@ async function handleSubmit(values: Record<any, any>) {
   //   console.error(e);
   // }
 };
+
+
+/** TOGGLE PASSWORD */
+
+// Data
+const showPassword = ref(false);
+const showPasswordConfirmation = ref(false);
 </script>
 
 <template>
@@ -68,19 +90,42 @@ async function handleSubmit(values: Record<any, any>) {
               border-color="light"
             >
             </AppFormInput>
-            
             <AppFormInput
               name="password"
               label="Password"
               border-color="light"
+              :type="showPassword?'text':'password'"
             >
+              <template #append>
+                <button
+                  class="select-none text-xl leading-[0]"
+                  @click="showPassword = !showPassword"
+                >
+                  <Icon
+                    :name="showPassword?'ph:eye':'ph:eye-closed'"
+                  >
+                  </Icon>
+                </button>
+              </template>
             </AppFormInput>
             
             <AppFormInput
               name="password_confirmation"
               label="Confirm password"
               border-color="light"
+              :type="showPasswordConfirmation?'text':'password'"
             >
+              <template #append>
+                <button
+                  class="select-none text-xl leading-[0]"
+                  @click="showPasswordConfirmation = !showPasswordConfirmation"
+                >
+                  <Icon
+                    :name="showPasswordConfirmation?'ph:eye':'ph:eye-closed'"
+                  >
+                  </Icon>
+                </button>
+              </template>
             </AppFormInput>
           </div>
 

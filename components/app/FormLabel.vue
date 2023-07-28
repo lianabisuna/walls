@@ -30,7 +30,7 @@ const sizeClass = computed(() => {
     case 'xl': return 'text-xl';
     case 'md': default: return 'text-base';
   }
-})
+});
 </script>
 
 <template>
