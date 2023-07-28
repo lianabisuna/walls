@@ -98,8 +98,11 @@ const showPasswordConfirmation = ref(false);
 <template>
   <NuxtLayout name="authentication">
     <div class="flex flex-grow items-center justify-center">
-      <form @submit="onSubmit">
-        <div class="bg-secondary-500 rounded-sm px-5 md:px-12 py-8 md:py-14 md:min-w-[40rem] w-full md:w-fit h-full md:h-fit">
+      <form
+        @submit="onSubmit"
+        class="md:w-fit h-full md:h-fit"
+      >
+        <div class="bg-secondary-500 rounded-sm px-5 md:px-12 py-8 md:py-14 md:min-w-[40rem] w-full">
           <AppLogo class="block md:hidden text-primary-500 md:text-light"></AppLogo>
 
           <div class="text-2xl/tight font-semibold mt-8 md:mt-0">
