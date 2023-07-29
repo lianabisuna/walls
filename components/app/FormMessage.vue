@@ -23,7 +23,7 @@ const backgroundClass = computed(() => {
 
 <template>
   <div
-    class="absolute left-0 top-full text-xs w-full -mt-0.5 px-1.5 py-0.5 font-normal"
+    class="absolute left-0 top-full text-xs w-full -mt-0.5 px-1.5 py-1 font-normal z-10 rounded-b-sm"
     :class="[
       textClass,
       backgroundClass,
