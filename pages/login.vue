@@ -1,29 +1,13 @@
 <script setup lang="ts">
 import { useAuthStore } from '~/store/authStore';
+import { AxiosError } from 'axios';
+import * as Yup from 'yup';
 
 definePageMeta({
   layout: false,
 });
 
-const META = {
-  TITLE: "Walls - Talk behind closed doors",
-  DESCRIPTION: "A digital space where you can about anything under a pseudonym.",
-  IMAGE: "https://example.com/image.png",
-  URL: "https://example.com",
-}
-useSeoMeta({
-  title: META.TITLE,
-  ogTitle: META.TITLE,
-  description: META.DESCRIPTION,
-  ogDescription: META.DESCRIPTION,
-  ogImage: META.IMAGE,
-  ogUrl: META.URL,
-  twitterCard: 'summary_large_image',
-  twitterTitle: META.TITLE,
-  twitterDescription: META.DESCRIPTION,
-  twitterImage: META.IMAGE,
-  keywords: "walls, freedom wall, anonymous, social media, social network, community, message, chat",
-})
+
 
 
 const authStore = useAuthStore();
@@ -51,7 +35,7 @@ const { user, setUser } = authStore;
           </AppFormInput>
         </div>
 
-        <div class="grid gap-y-7 gap-x-5 mt-12">
+        <div class="grid gap-5 mt-12">
           <!-- Register -->
           <AppButton
             color="secondary-500"

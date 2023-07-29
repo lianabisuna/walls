@@ -13,23 +13,26 @@ definePageMeta({
 const schema = Yup.object({
   username: Yup
     .string()
-    .required('Username is required.'),
+    .required('Enter a username.')
+    .min(6, 'Use 6 characters or more.')
+    .max(30, 'Use no more than 30 characters.'),
   email: Yup
     .string()
-    .required('Email is required.')
+    .required('Enter your email.')
     .email('Enter a valid email.'),
   password: Yup
     .string()
-    .required('Password is required.')
-    .min(8, 'Password must be at least 8 characters.')
-    .matches( /[A-Z]/, 'Password must have at least 1 uppercase letter.')
-    .matches( /[a-z]/, 'Password must have at least 1 lowercase letter.')
-    .matches( /[0-9]/, 'Password must have at least 1 numeric character.')
-    .matches( /[*@!#%&()^~{}]/, 'Password must have at least 1 special character.'),
+    .required('Enter a password.')
+    .min(8, 'Use 8 characters or more.')
+    .max(128, 'Use no more than 128 characters.'),
+    // .matches( /[A-Z]/, 'Password must have at least 1 uppercase letter.')
+    // .matches( /[a-z]/, 'Password must have at least 1 lowercase letter.')
+    // .matches( /[0-9]/, 'Password must have at least 1 numeric character.')
+    // .matches( /[*@!#%&()^~{}]/, 'Password must have at least 1 special character.'),
   password_confirmation: Yup
     .string()
-    .required('Confirm password is required.')
-    .oneOf([Yup.ref('password')], 'Password must match.'),
+    .required('Retype your password.')
+    .oneOf([Yup.ref('password')], "Password doesn't match. Try again."),
 });
 
 
@@ -93,6 +96,51 @@ const onSubmit = handleSubmit(async (values: Record<any, any>) => {
 
 const showPassword = ref(false);
 const showPasswordConfirmation = ref(false);
+
+
+/** SUGGEST USERNAME */
+
+// const baseUrl = 'https://api.api-ninjas.com/v1/';
+
+// async function fetchRandomAdjective() {
+//   const { data } = useFetch('randomword', {
+//     baseURL: baseUrl,
+//     method: 'GET',
+//     headers: {
+//       'X-Api-Key': '6B+pBTJPd7PsKbkE0xsQZw==fleMzEtYk2FXOVd9'
+//     },
+//     params: {
+//       type: 'adjective',
+//     }
+//   });
+
+//   console.log(data.value);
+//   return data.value;
+// }
+
+// async function fetchRandomBabyName() {
+//   const { data } = useFetch('babynames', {
+//     baseURL: baseUrl,
+//     method: 'GET',
+//     headers: {
+//       'X-Api-Key': '6B+pBTJPd7PsKbkE0xsQZw==fleMzEtYk2FXOVd9'
+//     },
+//   });
+
+//   console.log(data.value);
+//   return data.value;
+// }
+
+// async function generateRandomUsernameList() {
+//   const word = await fetchRandomAdjective();
+//   const names = await fetchRandomBabyName();
+
+//   return word.word + names[0];
+// }
+
+// onMounted(() => {
+//   //
+// })
 </script>
 
 <template>
@@ -100,9 +148,10 @@ const showPasswordConfirmation = ref(false);
     <div class="flex flex-grow items-center justify-center">
       <form
         @submit="onSubmit"
-        class="md:w-fit h-full md:h-fit"
+        class="h-full md:h-fit"
+        novalidate
       >
-        <div class="bg-secondary-500 rounded-sm px-5 md:px-12 py-8 md:py-14 md:min-w-[40rem] w-full">
+        <div class="bg-secondary-500 rounded-sm px-5 md:px-12 py-8 md:py-14 md:min-w-[40rem] w-full md:w-fit h-full md:h-fit">
           <AppLogo class="block md:hidden text-primary-500 md:text-light"></AppLogo>
 
           <div class="text-2xl/tight font-semibold mt-8 md:mt-0">
@@ -148,29 +197,31 @@ const showPasswordConfirmation = ref(false);
               </template>
             </AppFormInput>
             
-            <AppFormInput
-              name="password_confirmation"
-              label="Confirm password"
-              border-color="light"
-              :disabled="isSubmitting"
-              :loading="isSubmitting"
-              :type="showPasswordConfirmation?'text':'password'"
-            >
-              <template #append>
-                <button
-                  class="select-none text-xl leading-[0]"
-                  @click="showPasswordConfirmation = !showPasswordConfirmation"
-                >
-                  <Icon
-                    :name="showPasswordConfirmation?'ph:eye':'ph:eye-closed'"
+            <div class="flex flex-grow items-end">
+              <AppFormInput
+                name="password_confirmation"
+                border-color="light"
+                :disabled="isSubmitting"
+                :loading="isSubmitting"
+                :type="showPasswordConfirmation?'text':'password'"
+                block
+              >
+                <template #append>
+                  <button
+                    class="select-none text-xl leading-[0]"
+                    @click="showPasswordConfirmation = !showPasswordConfirmation"
                   >
-                  </Icon>
-                </button>
-              </template>
-            </AppFormInput>
+                    <Icon
+                      :name="showPasswordConfirmation?'ph:eye':'ph:eye-closed'"
+                    >
+                    </Icon>
+                  </button>
+                </template>
+              </AppFormInput>
+            </div>
           </div>
 
-          <div class="grid md:grid-cols-2 gap-y-7 gap-x-5 mt-12">
+          <div class="grid md:grid-cols-2 gap-5 mt-12">
             <!-- Register -->
             <AppButton
               color="dark"
