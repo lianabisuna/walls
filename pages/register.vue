@@ -36,7 +36,7 @@ const schema = Yup.object({
 });
 
 
-const { setErrors, isSubmitting, handleSubmit } = useForm({
+const { errors, setErrors, isSubmitting, handleSubmit, meta } = useForm({
   validationSchema: schema,
 });
 
@@ -131,12 +131,12 @@ const showPasswordConfirmation = ref(false);
 //   return data.value;
 // }
 
-// async function generateRandomUsernameList() {
-//   const word = await fetchRandomAdjective();
-//   const names = await fetchRandomBabyName();
+async function generateRandomUsername() {
+  // const word = await fetchRandomAdjective();
+  // const names = await fetchRandomBabyName();
 
-//   return word.word + names[0];
-// }
+  // return word.word + names[0];
+}
 
 // onMounted(() => {
 //   //
@@ -166,6 +166,17 @@ const showPasswordConfirmation = ref(false);
               :disabled="isSubmitting"
               :loading="isSubmitting"
             >
+              <template #append>
+                <button
+                  class="select-none text-xl leading-[0]"
+                  @click.prevent="generateRandomUsername"
+                >
+                  <Icon
+                    name="ph:dice-five"
+                  >
+                  </Icon>
+                </button>
+              </template>
             </AppFormInput>
 
             <AppFormInput
@@ -187,7 +198,7 @@ const showPasswordConfirmation = ref(false);
               <template #append>
                 <button
                   class="select-none text-xl leading-[0]"
-                  @click="showPassword = !showPassword"
+                  @click.prevent="()=>showPassword=!showPassword"
                 >
                   <Icon
                     :name="showPassword?'ph:eye':'ph:eye-closed'"
@@ -209,7 +220,7 @@ const showPasswordConfirmation = ref(false);
                 <template #append>
                   <button
                     class="select-none text-xl leading-[0]"
-                    @click="showPasswordConfirmation = !showPasswordConfirmation"
+                    @click.prevent="()=>showPasswordConfirmation=!showPasswordConfirmation"
                   >
                     <Icon
                       :name="showPasswordConfirmation?'ph:eye':'ph:eye-closed'"
