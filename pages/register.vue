@@ -167,7 +167,6 @@ function getRandomUsername() {
 }
 
 watch(usernamesComputed, () => {
-  console.log('watch', usernamesComputed.value.length);
   if (usernamesComputed.value.length > 0) return;
   generateRandomUsernames();
 }, { deep: true, immediate: true });
