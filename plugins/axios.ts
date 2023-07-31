@@ -1,5 +1,4 @@
 import axios, { type AxiosError } from 'axios';
-import { useAuthStore } from '~/store/authStore';
 
 export default defineNuxtPlugin((nuxtApp) => {
 	axios.defaults.baseURL = 'https://ec2-18-141-234-79.ap-southeast-1.compute.amazonaws.com/api/';
@@ -7,13 +6,12 @@ export default defineNuxtPlugin((nuxtApp) => {
 	// Request Interceptor for Beater Token Auth
 	axios.interceptors.request.use(
 		(config)=> {
-			const { user } = useAuthStore();
+			// const { user } = useAuthStore();
 			// if (user && user?.token && !config.headers?.Authorization) {
 			// 	config
 			// 		.headers
 			// 		.setAuthorization(`Bearer ${user.token}`);
 			// }
-			console.log('axios:request', user);
 			return config;
 		})
 
@@ -26,7 +24,6 @@ export default defineNuxtPlugin((nuxtApp) => {
 		// } else {
 		// 	console.error(error)
 		// }
-		console.log('axios:response', error);
 		return Promise.reject(error);
 	});
 

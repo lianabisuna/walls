@@ -20,6 +20,7 @@
     "@pinia/nuxt": "^0.4.11",
     "@vee-validate/nuxt": "^4.10.8",
     "@vee-validate/yup": "^4.10.8",
+    "@vueuse/nuxt": "^10.2.1",
     "axios": "^1.4.0",
     "pinia": "^2.1.4",
     "yup": "^1.2.0"

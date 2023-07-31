@@ -1,17 +1,7 @@
 <script setup lang="ts">
-import { useAuthStore } from '~/store/authStore';
-import { AxiosError } from 'axios';
-import * as Yup from 'yup';
-
 definePageMeta({
   layout: false,
 });
-
-
-
-
-const authStore = useAuthStore();
-const { user, setUser } = authStore;
 </script>
 
 <template>

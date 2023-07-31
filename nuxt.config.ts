@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     '@nuxtjs/google-fonts',
     'nuxt-icon',
     '@pinia/nuxt',
+    '@vueuse/nuxt',
     [
       '@vee-validate/nuxt',
       {
@@ -24,5 +25,11 @@ export default defineNuxtConfig({
     public: {
       baseURL: process.env.BASE_URL || 'https://ec2-18-141-234-79.ap-southeast-1.compute.amazonaws.com/api/',
     },
-  }
+  },
+  imports: {
+    dirs: ['./stores'],
+  },
+  pinia: {
+    autoImports: ['defineStore'],
+  },
 })

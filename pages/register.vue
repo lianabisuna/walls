@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { AxiosError } from 'axios';
 import * as Yup from 'yup';
-
 
 definePageMeta({
   layout: false,
@@ -36,7 +34,7 @@ const schema = Yup.object({
 });
 
 
-const { errors, setErrors, isSubmitting, handleSubmit, meta } = useForm({
+const { setErrors, isSubmitting, handleSubmit, meta } = useForm({
   validationSchema: schema,
 });
 
@@ -98,49 +96,81 @@ const showPassword = ref(false);
 const showPasswordConfirmation = ref(false);
 
 
-/** SUGGEST USERNAME */
+/** GENERATE RANDOM USERNAME */
 
-// const baseUrl = 'https://api.api-ninjas.com/v1/';
+const usernameStore = useUsernameStore();
+const { addUsername, removeUsername } = usernameStore;
+const baseUrl = 'https://api.api-ninjas.com/v1/';
+const usernamesComputed = computed(()=>usernameStore.usernames);
 
-// async function fetchRandomAdjective() {
-//   const { data } = useFetch('randomword', {
-//     baseURL: baseUrl,
-//     method: 'GET',
-//     headers: {
-//       'X-Api-Key': '6B+pBTJPd7PsKbkE0xsQZw==fleMzEtYk2FXOVd9'
-//     },
-//     params: {
-//       type: 'adjective',
-//     }
-//   });
+// Fetch random word (type: adjective) from API Ninja
+async function fetchRandomAdjective() {
+  const { data } = await useFetch('randomword', {
+    baseURL: baseUrl,
+    method: 'GET',
+    headers: {
+      'X-Api-Key': '6B+pBTJPd7PsKbkE0xsQZw==fleMzEtYk2FXOVd9'
+    },
+    params: {
+      type: 'adjective',
+    }
+  });
 
-//   console.log(data.value);
-//   return data.value;
-// }
-
-// async function fetchRandomBabyName() {
-//   const { data } = useFetch('babynames', {
-//     baseURL: baseUrl,
-//     method: 'GET',
-//     headers: {
-//       'X-Api-Key': '6B+pBTJPd7PsKbkE0xsQZw==fleMzEtYk2FXOVd9'
-//     },
-//   });
-
-//   console.log(data.value);
-//   return data.value;
-// }
-
-async function generateRandomUsername() {
-  // const word = await fetchRandomAdjective();
-  // const names = await fetchRandomBabyName();
-
-  // return word.word + names[0];
+  return data.value;
 }
 
-// onMounted(() => {
-//   //
-// })
+// Fetch random baby name from API Ninja
+async function fetchRandomBabyName() {
+  const { data } = await useFetch('babynames', {
+    baseURL: baseUrl,
+    method: 'GET',
+    headers: {
+      'X-Api-Key': '6B+pBTJPd7PsKbkE0xsQZw==fleMzEtYk2FXOVd9'
+    },
+  });
+
+  return data.value;
+}
+
+// Generate list of random usernames
+async function generateRandomUsernames() {
+  if (usernamesComputed.value.length > 1) return;
+
+  const randomNames = await fetchRandomBabyName() as string[];
+
+  if (!randomNames?.length) return;
+
+  for(let x=0; x<randomNames.length; x++) {
+    const randomWord = await fetchRandomAdjective() as RandomWord;
+    const wordCombined = formatUsername(randomWord.word) + formatUsername(randomNames[x]);
+    addUsername(wordCombined);
+  }
+}
+
+// Capitalize first letter per word
+function formatUsername(str: string) {
+  let strFormatted = '';
+  const strArr = str.split(/[^A-Za-z0-9]/);
+  strArr.forEach(strEl => {
+    strFormatted += strEl[0].toUpperCase() + strEl.slice(1, strEl.length);
+  });
+  return strFormatted;
+}
+
+const { value: usernameField } = useField('username');
+
+// Get username in first index
+function getRandomUsername() {
+  const username = usernamesComputed.value[0];
+  usernameField.value = username;
+  removeUsername(0);
+}
+
+watch(usernamesComputed, () => {
+  console.log('watch', usernamesComputed.value.length);
+  if (usernamesComputed.value.length > 0) return;
+  generateRandomUsernames();
+}, { deep: true, immediate: true });
 </script>
 
 <template>
@@ -169,10 +199,14 @@ async function generateRandomUsername() {
               <template #append>
                 <button
                   class="select-none text-xl leading-[0]"
-                  @click.prevent="generateRandomUsername"
+                  :class="[
+                    { 'opacity-75 pointer-events-none': !usernamesComputed.length }
+                  ]"
+                  :disabled="!usernamesComputed.length"
+                  @click.prevent="getRandomUsername"
                 >
                   <Icon
-                    name="ph:dice-five"
+                    name="ph:repeat"
                   >
                   </Icon>
                 </button>
@@ -287,4 +321,8 @@ export interface SuccessResponse<Data = {}> {
     data: Data;
   };
 }
-</script>
+
+interface RandomWord {
+  word: string;
+}
+</script>stores
