@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Console } from 'console';
 import * as Yup from 'yup';
 
 definePageMeta({
@@ -160,7 +161,7 @@ async function generateRandomUsernames() {
       }
     }
   } catch(e) {
-    console.log(e);
+    console.error(e);
   }
 }
 
@@ -187,6 +188,40 @@ watch(usernamesComputed, () => {
   if (usernamesComputed.value.length > 0) return;
   generateRandomUsernames();
 }, { deep: true, immediate: true });
+
+
+/** PASSWORD STRENGTH */
+
+const strengthInPercentage = ref(0);
+const strengthInWhole = ref(0);
+const { value: passwordField } = useField('password');
+
+watch(passwordField, () => {
+  if (!passwordField.value) return;
+  checkPasswordStrength();
+})
+
+function checkPasswordStrength() {
+  strengthInPercentage.value = 0;
+  strengthInWhole.value = 0;
+  
+  const regexValidations = [
+    /.{8,}/,
+    /[A-Z]/,
+    /[a-z]/,
+    /[0-9]/,
+    /[*@!#%&()^~{}]/
+  ];
+
+  for (let x=0; x<regexValidations.length; x++) {
+    const passwordStr = passwordField.value as string;
+    if (regexValidations[x].test(passwordStr)) {
+      strengthInWhole.value = Math.floor(((strengthInWhole.value+1)/regexValidations.length )*5);
+    } 
+  }
+
+  strengthInPercentage.value = Math.floor((strengthInWhole.value/regexValidations.length)*100);
+}
 </script>
 
 <template>
@@ -236,6 +271,7 @@ watch(usernamesComputed, () => {
               :loading="isSubmitting"
             >
             </AppFormInput>
+
             <AppFormInput
               name="password"
               label="Password"
@@ -255,6 +291,44 @@ watch(usernamesComputed, () => {
                 </button>
               </template>
             </AppFormInput>
+
+            <!-- Password Strength -->
+            <ClientOnly>
+              <Teleport to="[aria-label='Password']">
+                <div
+                  v-show="passwordField"
+                  class="relative"
+                >
+                  <div class="flex gap-x-0.5">
+                    <div
+                      v-for="bars in 5"
+                      class="h-2 w-2"
+                      :class="[
+                        {
+                          'bg-light/75': true,
+                        }
+                      ]"
+                    >
+                    </div>
+                  </div>
+                  <div class="absolute top-0 left-0 flex gap-x-0.5">
+                    <div
+                      v-for="strength in strengthInWhole"
+                      class="h-2 w-2"
+                      :class="[
+                        {
+                          'bg-error-500': strengthInPercentage > 0 && strengthInPercentage < 26,
+                          'bg-alert-500': strengthInPercentage > 25 && strengthInPercentage < 51,
+                          'bg-orange-500': strengthInPercentage > 50 && strengthInPercentage < 76,
+                          'bg-success-500': strengthInPercentage > 75 && strengthInPercentage <= 100,
+                        }
+                      ]"
+                    >
+                    </div>
+                  </div>
+                </div>
+              </Teleport>
+            </ClientOnly>
             
             <div class="flex flex-grow items-end">
               <AppFormInput

@@ -8,6 +8,7 @@ const props = defineProps({
   color: { type: String as PropType<TailwindColor>, default: 'primary-500' },
   error: { type: Boolean as PropType<boolean>, default: false },
   success: { type: Boolean as PropType<boolean>, default: false },
+  label: { type: String as PropType<string>, default: '' },
   size: { type: String as PropType<LabelSize>, default: 'sm' },
 })
 
@@ -31,24 +32,31 @@ const sizeClass = computed(() => {
     case 'md': default: return 'text-base';
   }
 });
+
+const slots = useSlots();
 </script>
 
 <template>
 	<label
-		class="mb-1.5 font-semibold"
+		class="flex items-center mb-1.5 font-semibold"
     :class="[
       textClass,
       sizeClass,
     ]"
     v-bind="$attrs"
   >
-    <slot></slot>
+    <slot>{{ props.label }}</slot>
     <span
       v-if="required"
-      class="ml-px text-error-500"
+      class="ml-1 text-error-500"
     >
       *
     </span>
+    <div
+      class="ml-auto"
+      :aria-label="props.label"
+    >
+    </div>
   </label>
 </template>
 

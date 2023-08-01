@@ -65,6 +65,7 @@ function onClickContainer() {
         :error="props.error || !!fieldData.errorMessage"
         :success="props.success"
         :size="props.size"
+        :label="props.label"
       >
         {{ props.label }}
       </AppFormLabel>
