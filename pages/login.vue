@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { SuccessResponse, ErrorResponse } from 'services/types';
+import { UserData } from 'stores/authenticationStore';
 import * as Yup from 'yup';
 
 
@@ -9,6 +10,9 @@ definePageMeta({
 
 
 /** FORM VALIDATION */
+
+const authenticationStore = useAuthenticationStore();
+const { setUser } = authenticationStore;
 
 const schema = Yup.object({
   email: Yup
@@ -39,13 +43,15 @@ const onSubmit = handleSubmit(async (values: Record<any, any>) => {
     
     /** HANDLE API RESPONSE */
 
-    const successResponse = data.value as SuccessResponse;
+    const successResponse = data.value as SuccessResponse<UserData>;
     const errorResponse = error.value?.data as ErrorResponse<any, LoginForm>;
 
     // Handle success response
     if (successResponse?.success) {
       // TO DO: Add message as toast
       console.log(successResponse.success.message);
+
+      setUser(successResponse.success.data);
 
       // Navigate to login
       navigateTo({ path: '/' });
