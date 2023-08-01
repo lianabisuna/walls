@@ -221,10 +221,9 @@ watch(usernamesComputed, () => {
                   :disabled="!usernamesComputed.length"
                   @click.prevent="getRandomUsername"
                 >
-                  <Icon
-                    name="ph:repeat"
-                  >
-                  </Icon>
+                  <ClientOnly>
+                    <Icon name="ph:repeat"></Icon>
+                  </ClientOnly>
                 </button>
               </template>
             </AppFormInput>
@@ -250,10 +249,9 @@ watch(usernamesComputed, () => {
                   class="select-none text-xl leading-[0]"
                   @click.prevent="()=>showPassword=!showPassword"
                 >
-                  <Icon
-                    :name="showPassword?'ph:eye':'ph:eye-closed'"
-                  >
-                  </Icon>
+                  <ClientOnly>
+                    <Icon :name="showPassword?'ph:eye':'ph:eye-closed'"></Icon>
+                  </ClientOnly>
                 </button>
               </template>
             </AppFormInput>
@@ -272,10 +270,9 @@ watch(usernamesComputed, () => {
                     class="select-none text-xl leading-[0]"
                     @click.prevent="()=>showPasswordConfirmation=!showPasswordConfirmation"
                   >
-                    <Icon
-                      :name="showPasswordConfirmation?'ph:eye':'ph:eye-closed'"
-                    >
-                    </Icon>
+                    <ClientOnly>
+                      <Icon :name="showPasswordConfirmation?'ph:eye':'ph:eye-closed'"></Icon>
+                    </ClientOnly>
                   </button>
                 </template>
               </AppFormInput>
