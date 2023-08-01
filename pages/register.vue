@@ -145,14 +145,22 @@ async function fetchRandomBabyName() {
 async function generateRandomUsernames() {
   if (usernamesComputed.value.length > 1) return;
 
-  const randomNames = await fetchRandomBabyName() as string[];
+  try {
+    const randomNames = await fetchRandomBabyName() as string[];
 
-  if (!randomNames?.length) return;
+    if (!randomNames?.length) return;
 
-  for(let x=0; x<randomNames.length; x++) {
-    const randomWord = await fetchRandomAdjective() as RandomWord;
-    const wordCombined = formatUsername(randomWord.word) + formatUsername(randomNames[x]);
-    addUsername(wordCombined);
+    for(let x=0; x<randomNames.length; x++) {
+      try {
+        const randomWord = await fetchRandomAdjective() as RandomWord;
+        const wordCombined = formatUsername(randomWord.word) + formatUsername(randomNames[x]);
+        addUsername(wordCombined);
+      } catch(e) {
+        console.error(e);
+      }
+    }
+  } catch(e) {
+    console.log(e);
   }
 }
 
