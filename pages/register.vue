@@ -232,7 +232,7 @@ function checkPasswordStrength() {
         class="h-full md:h-fit"
         novalidate
       >
-        <div class="bg-secondary-500 rounded-sm px-5 md:px-12 py-8 md:py-14 md:min-w-[40rem] w-full md:w-fit h-full md:h-fit">
+        <div class="bg-secondary-500 rounded-sm px-5 md:px-12 py-8 md:py-14 md:min-w-[40rem] max-w-[40rem] w-full md:w-fit h-full md:h-fit">
           <AppLogo class="block md:hidden text-primary-500 md:text-light"></AppLogo>
 
           <div class="text-2xl/tight font-semibold mt-8 md:mt-0">
