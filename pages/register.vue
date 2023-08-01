@@ -105,31 +105,40 @@ const usernamesComputed = computed(()=>usernameStore.usernames);
 
 // Fetch random word (type: adjective) from API Ninja
 async function fetchRandomAdjective() {
-  const { data } = await useFetch('randomword', {
-    baseURL: baseUrl,
-    method: 'GET',
-    headers: {
-      'X-Api-Key': '6B+pBTJPd7PsKbkE0xsQZw==fleMzEtYk2FXOVd9'
-    },
-    params: {
-      type: 'adjective',
-    }
-  });
+  try {
+    const { data } = await useFetch('randomword', {
+      baseURL: baseUrl,
+      method: 'GET',
+      headers: {
+        'X-Api-Key': '6B+pBTJPd7PsKbkE0xsQZw==fleMzEtYk2FXOVd9'
+      },
+      params: {
+        type: 'adjective',
+      }
+    });
 
-  return data.value;
+    return data.value;
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 // Fetch random baby name from API Ninja
 async function fetchRandomBabyName() {
-  const { data } = await useFetch('babynames', {
-    baseURL: baseUrl,
-    method: 'GET',
-    headers: {
-      'X-Api-Key': '6B+pBTJPd7PsKbkE0xsQZw==fleMzEtYk2FXOVd9'
-    },
-  });
+  try {
+    const { data } = await useFetch('babynames', {
+      baseURL: baseUrl,
+      method: 'GET',
+      headers: {
+        'X-Api-Key': '6B+pBTJPd7PsKbkE0xsQZw==fleMzEtYk2FXOVd9'
+      },
+    });
 
-  return data.value;
+    return data.value;
+  } catch(e) {
+    console.error(e);
+  }
+  return;
 }
 
 // Generate list of random usernames
