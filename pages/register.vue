@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Console } from 'console';
+import { SuccessResponse, ErrorResponse } from 'services/types';
 import * as Yup from 'yup';
 
 definePageMeta({
@@ -394,22 +394,7 @@ interface RegisterForm {
   password_confirmation: string;
 }
 
-export interface ErrorResponse<Data = {}, Errors = {}> {
-  error: {
-    message?: string;
-    errors?: Errors;
-    data?: Data;
-  }
-}
-
-export interface SuccessResponse<Data = {}> {
-  success: { 
-    message: string; 
-    data: Data;
-  };
-}
-
 interface RandomWord {
   word: string;
 }
-</script>stores
+</script>
