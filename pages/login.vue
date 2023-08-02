@@ -88,10 +88,10 @@ const showPassword = ref(false);
     <div class="flex flex-grow items-center justify-center">
       <form
         @submit="onSubmit"
-        class="h-full md:h-fit"
+        class="flex items-center justify-center w-full h-full md:h-fit"
         novalidate
       >
-        <div class="bg-light rounded-sm px-5 md:px-10 py-8 md:py-14 min-w-[26rem] md:max-w-[26rem] w-full h-full md:h-fit">
+        <div class="bg-light rounded-sm px-5 md:px-10 py-8 md:py-14 md:min-w-[26rem] md:max-w-[26rem] min-w-full h-full md:h-fit">
           <AppLogo class="block md:hidden text-primary-500 md:text-light"></AppLogo>
 
           <div class="text-2xl/tight font-semibold mt-8 md:mt-0">

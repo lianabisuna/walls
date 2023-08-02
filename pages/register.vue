@@ -229,7 +229,7 @@ function checkPasswordStrength() {
     <div class="flex flex-grow items-center justify-center">
       <form
         @submit="onSubmit"
-        class="h-full md:h-fit"
+        class="flex items-center justify-center w-full h-full md:h-fit"
         novalidate
       >
         <div class="bg-secondary-500 rounded-sm px-5 md:px-10 py-8 md:py-14 md:min-w-[40rem] max-w-[40rem] w-full md:w-fit h-full md:h-fit">

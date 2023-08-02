@@ -14,6 +14,10 @@ module.exports = {
       variants: ['hover', 'focus', 'disabled', 'active', 'peer-checked', 'group-focus-within'],
     },
     {
+      pattern: /(bg|text|border|outline)-(red|emerald|blue|sky|green|purple|yellow|blue)-(100|200|300|400|500|600|700|800|900)/,
+      variants: ['hover', 'focus', 'disabled', 'active', 'peer-checked', 'group-focus-within'],
+    },
+    {
       pattern: /(bg|text|border|outline)-(dark|light)/,
       variants: ['hover', 'focus', 'disabled', 'active', 'peer-checked', 'group-focus-within'],
     },
