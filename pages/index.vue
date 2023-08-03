@@ -144,7 +144,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <NuxtLayout name="dashboard">
+  <NuxtLayout name="home">
     <div class="flex-grow bg-light p-5 md:p-10 grid grid-cols-4 gap-5 md:gap-7">
       <!-- Walls -->
       <div class="col-span-full md:col-span-3 flex flex-col gap-5 md:gap-10">
