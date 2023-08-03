@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { TailwindColor } from 'components/app/types';
 import { SuccessResponse, ErrorResponse } from 'services/types';
+import { UserData } from 'stores/authenticationStore';
 
 
 // Page Meta
@@ -11,7 +12,7 @@ definePageMeta({
 
 
 // Test Data
-// const rooms: RoomData[] = [
+// const roomsData: RoomData[] = [
 //   {
 //     id: 0,
 //     name: "General",
@@ -54,78 +55,20 @@ definePageMeta({
 //   },
 // ];
 
-const members: MemberData[] = [
-  {
-    id: 0,
-    chat_room_id: 0,
-    user_id: 0,
-    is_admin: 0,
-    is_active: 1,
-    color: "purple-500",
-    created_at: "2023-07-28 13:06:39",
-    updated_at: "2023-07-28 13:06:39",
-  },
-  {
-    id: 0,
-    chat_room_id: 0,
-    user_id: 0,
-    is_admin: 0,
-    is_active: 1,
-    color: "red-500",
-    created_at: "2023-07-28 13:06:39",
-    updated_at: "2023-07-28 13:06:39",
-  },
-  {
-    id: 0,
-    chat_room_id: 0,
-    user_id: 0,
-    is_admin: 0,
-    is_active: 1,
-    color: "blue-500",
-    created_at: "2023-07-28 13:06:39",
-    updated_at: "2023-07-28 13:06:39",
-  },
-  {
-    id: 0,
-    chat_room_id: 0,
-    user_id: 0,
-    is_admin: 0,
-    is_active: 1,
-    color: "green-500",
-    created_at: "2023-07-28 13:06:39",
-    updated_at: "2023-07-28 13:06:39",
-  },
-  {
-    id: 0,
-    chat_room_id: 0,
-    user_id: 0,
-    is_admin: 0,
-    is_active: 1,
-    color: "yellow-500",
-    created_at: "2023-07-28 13:06:39",
-    updated_at: "2023-07-28 13:06:39",
-  },
-  {
-    id: 0,
-    chat_room_id: 0,
-    user_id: 0,
-    is_admin: 0,
-    is_active: 0,
-    color: "sky-500",
-    created_at: "2023-07-28 13:06:39",
-    updated_at: "2023-07-28 13:06:39",
-  },
-  {
-    id: 0,
-    chat_room_id: 0,
-    user_id: 0,
-    is_admin: 0,
-    is_active: 0,
-    color: "green-500",
-    created_at: "2023-07-28 13:06:39",
-    updated_at: "2023-07-28 13:06:39",
-  },
-]
+// const usersData: UserData[] = [
+//   {
+//     email: "janedoe@gmail.com",
+//     email_verified_at: "2023-07-28 13:06:39",
+//     first_name: "Jane",
+//     id: 0,
+//     last_name: "Doe",
+//     is_active: 1,
+//     is_admin: 0,
+//     color: 'blue-500',
+//     created_at: "2023-07-28 13:06:39",
+//     updated_at: "2023-07-28 13:06:39",
+//   },
+// ];
 
 
 /** LIST OF ROOMS */
@@ -161,20 +104,20 @@ async function fetchRooms() {
 };
 
 
-/** LIST OF MEMBERS */
+/** LIST OF USERS */
 
-const membersData = ref([]) as Ref<MemberData[]>;
-const membersLoading = ref(true);
+const usersData = ref([]) as Ref<UserData[]>;
+const usersLoading = ref(true);
 
-async function fetchMembers() {
+async function fetchUsers() {
   try {
-    membersLoading.value = true;
+    usersLoading.value = true;
     
     await useBaseFetch('users', {
       method: 'GET',
       onResponse({ response }) {
-        const _response = response._data as SuccessResponse<MemberData[]>;
-        membersData.value = _response.success.data;
+        const _response = response._data as SuccessResponse<UserData[]>;
+        usersData.value = _response.success.data;
 
         // TO DO: Add message as toast
         console.log(_response.success.message);
@@ -187,7 +130,7 @@ async function fetchMembers() {
       },
     })
 
-    membersLoading.value = false;
+    usersLoading.value = false;
   } catch(e) {
     console.error(e);
   }
@@ -196,7 +139,7 @@ async function fetchMembers() {
 onMounted(async () => {
   await nextTick();
   fetchRooms();
-  fetchMembers();
+  fetchUsers();
 })
 </script>
 
@@ -246,22 +189,22 @@ onMounted(async () => {
       <div class="h-fit col-span-full md:col-span-1 bg-neutral-100 rounded-sm p-3 md:p-5">
         <div class="flex flex-wrap gap-1.5">
           <AppTooltip
-            v-for="member in membersData"
-            :color="member.color ? member.color : 'primary-500'"
+            v-for="user in usersData"
+            :color="user.color ? user.color : 'primary-500'"
           >
             <template #trigger>
               <div
                 class="rounded-full border-2 border-neutral-300 h-11 w-11 hover:bg-red-500"
                 :class="[
-                  member.color ? `bg-${member.color}` : 'bg-primary-500',
+                  user.color ? `bg-${user.color}` : 'bg-primary-500',
                   {
-                    'opacity-50': !member.is_active,
+                    'opacity-50': !user.is_active,
                   },
                 ]"
               >
               </div>
             </template>
-            <template #default>{{ member.created_at }}</template>
+            <template #default>{{ user.first_name }}</template>
           </AppTooltip>
         </div>
       </div>
@@ -278,16 +221,5 @@ interface RoomData {
   updated_at: string;
   is_private: number;
   members_count: number;
-}
-
-interface MemberData {
-  id: number;
-  chat_room_id: number;
-  user_id: number;
-  is_admin: number;
-  is_active: number;
-  color: TailwindColor;
-  created_at: string;
-  updated_at: string;
 }
 </script>

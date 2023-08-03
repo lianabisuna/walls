@@ -1,21 +1,28 @@
-export const useAuthenticationStore = defineStore('authentication', () => {
-  const user: Ref<UserData> = useCookie('user');
+import { TailwindColor } from "components/app/types";
 
-  function setUser(value: UserData) {
+export const useAuthenticationStore = defineStore('authentication', () => {
+  const user: Ref<UserLoginData> = useCookie('user');
+
+  function setUser(value: UserLoginData) {
     user.value = value;
   }
   return { user, setUser }
 });
 
-export interface UserData {
+export interface UserLoginData {
   token: string;
-  user: {
-    created_at: string;
-    email: string;
-    email_verified_at: string;
-    first_name: string;
-    id: number;
-    last_name: string;
-    updated_at: string;
-  }
+  user: UserData;
+}
+
+export interface UserData {
+  created_at: string;
+  email: string;
+  email_verified_at: string;
+  first_name: string;
+  id: number;
+  last_name: string;
+  updated_at: string;
+  is_active?: number;
+  is_admin?: number;
+  color?: TailwindColor;
 }
