@@ -1,5 +1,6 @@
 export const useBaseFetch: typeof useFetch = (request, options?) => {
   const config = useRuntimeConfig();
+	const authenticationStore = useAuthenticationStore();
 
   return useFetch(
 		request,
@@ -7,6 +8,7 @@ export const useBaseFetch: typeof useFetch = (request, options?) => {
 			baseURL: config.public.baseURL as string,
 			headers: {
 				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${authenticationStore.user.token}`,
 			},
 			...options,
 		}

@@ -1,48 +1,57 @@
 <script setup lang="ts">
-import { number } from 'yup';
+import { SuccessResponse, ErrorResponse } from 'services/types';
 
+
+// Page Meta
 definePageMeta({
   middleware: ['authentication'],
   layout: false,
 });
 
-const rooms: RoomData[] = [
-  {
-    id: 0,
-    name: "General",
-    created_at: "2023-07-28 13:06:39",
-    updated_at: "2023-07-28 13:06:39",
-    is_private: 0,
-  },
-  {
-    id: 1,
-    name: "Announcements",
-    created_at: "2023-07-28 13:06:39",
-    updated_at: "2023-07-28 13:06:39",
-    is_private: 0,
-  },
-  {
-    id: 2,
-    name: "Marketplace",
-    created_at: "2023-07-28 13:06:39",
-    updated_at: "2023-07-28 13:06:39",
-    is_private: 0,
-  },
-  {
-    id: 3,
-    name: "Gaming",
-    created_at: "2023-07-28 13:06:39",
-    updated_at: "2023-07-28 13:06:39",
-    is_private: 0,
-  },
-  {
-    id: 4,
-    name: "Technology",
-    created_at: "2023-07-28 13:06:39",
-    updated_at: "2023-07-28 13:06:39",
-    is_private: 0,
-  },
-];
+
+// Test Data
+// const rooms: RoomData[] = [
+//   {
+//     id: 0,
+//     name: "General",
+//     created_at: "2023-07-28 13:06:39",
+//     updated_at: "2023-07-28 13:06:39",
+//     is_private: 0,
+//     members_count: 1,
+//   },
+//   {
+//     id: 1,
+//     name: "Announcements",
+//     created_at: "2023-07-28 13:06:39",
+//     updated_at: "2023-07-28 13:06:39",
+//     is_private: 0,
+//     members_count: 1,
+//   },
+//   {
+//     id: 2,
+//     name: "Marketplace",
+//     created_at: "2023-07-28 13:06:39",
+//     updated_at: "2023-07-28 13:06:39",
+//     is_private: 0,
+//     members_count: 1,
+//   },
+//   {
+//     id: 3,
+//     name: "Gaming",
+//     created_at: "2023-07-28 13:06:39",
+//     updated_at: "2023-07-28 13:06:39",
+//     is_private: 0,
+//     members_count: 1,
+//   },
+//   {
+//     id: 4,
+//     name: "Technology",
+//     created_at: "2023-07-28 13:06:39",
+//     updated_at: "2023-07-28 13:06:39",
+//     is_private: 0,
+//     members_count: 1,
+//   },
+// ];
 
 const members: MemberData[] = [
   {
@@ -116,6 +125,78 @@ const members: MemberData[] = [
     updated_at: "2023-07-28 13:06:39",
   },
 ]
+
+
+/** LIST OF ROOMS */
+
+const roomsData = ref([]) as Ref<RoomData[]>;
+const roomsLoading = ref(true);
+
+async function fetchRooms() {
+  try {
+    roomsLoading.value = true;
+    
+    await useBaseFetch('chat/rooms', {
+      method: 'GET',
+      onResponse({ response }) {
+        const _response = response._data as SuccessResponse<RoomData[]>;
+        roomsData.value = _response.success.data;
+
+        // TO DO: Add message as toast
+        console.log(_response.success.message);
+      },
+      onResponseError({ response }) {
+        const _response = response._data as ErrorResponse<any, any>;
+
+        // TO DO: Add message as toast
+        console.error('error', _response.error.message);
+      },
+    })
+
+    roomsLoading.value = false;
+  } catch(e) {
+    console.error(e);
+  }
+};
+
+
+/** LIST OF MEMBERS */
+
+const membersData = ref([]) as Ref<MemberData[]>;
+const membersLoading = ref(true);
+
+async function fetchMembers() {
+  try {
+    membersLoading.value = true;
+    
+    await useBaseFetch('chat/users', {
+      method: 'GET',
+      onResponse({ response }) {
+        const _response = response._data as SuccessResponse<MemberData[]>;
+        membersData.value = _response.success.data;
+
+        // TO DO: Add message as toast
+        console.log(_response.success.message);
+      },
+      onResponseError({ response }) {
+        const _response = response._data as ErrorResponse<any, any>;
+
+        // TO DO: Add message as toast
+        console.error('error', _response.error.message);
+      },
+    })
+
+    membersLoading.value = false;
+  } catch(e) {
+    console.error(e);
+  }
+};
+
+onMounted(async () => {
+  await nextTick();
+  fetchRooms();
+  // fetchMembers();
+})
 </script>
 
 <template>
@@ -135,14 +216,28 @@ const members: MemberData[] = [
         </div>
 
         <!-- List -->
-        <div class="grid md:grid-cols-3 md: gap-3 md:gap-5">
+        <div
+          v-if="roomsLoading"
+          class="opacity-75 animate-pulse"
+        >
+          We ask for your patience, we are still fetching walls.
+        </div>
+        <div
+          v-else-if="!roomsLoading && !roomsData"
+          class="opacity-75 animate-pulse"
+        >
+          Unfortunately, we couldn't find walls but you can create your own.
+        </div>
+        <div
+          v-else
+          class="grid md:grid-cols-3 md: gap-3 md:gap-5"
+        >
           <CardRoom
-            v-for="room in rooms"
+            v-for="room in roomsData"
             :name="room.name"
-            :length="3"
+            :length="room.members_count"
             :tags="['Education', 'Politics']"
           >
-            {{ room }}
           </CardRoom>
         </div>
       </div>
@@ -151,10 +246,10 @@ const members: MemberData[] = [
       <div class="h-fit col-span-full md:col-span-1 bg-neutral-100 rounded-sm p-3 md:p-5">
         <div class="flex flex-wrap gap-1.5">
           <div
-            v-for="member in members"
+            v-for="member in membersData"
             class="rounded-full border-2 border-neutral-300 h-11 w-11 aspect-square"
             :class="[
-              `bg-${member.color}`,
+              `bg-${member.color ? member.color : 'primary-500'}`,
               {
                 'opacity-50': !member.is_active,
               },
@@ -175,6 +270,7 @@ interface RoomData {
   created_at: string;
   updated_at: string;
   is_private: number;
+  members_count: number;
 }
 
 interface MemberData {
