@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { TailwindColor } from 'components/app/types';
 import { SuccessResponse, ErrorResponse } from 'services/types';
 
 
@@ -244,17 +245,24 @@ onMounted(async () => {
       <!-- Vandals -->
       <div class="h-fit col-span-full md:col-span-1 bg-neutral-100 rounded-sm p-3 md:p-5">
         <div class="flex flex-wrap gap-1.5">
-          <div
+          <AppTooltip
             v-for="member in membersData"
-            class="rounded-full border-2 border-neutral-300 h-11 w-11 aspect-square"
-            :class="[
-              member.color ? `bg-${member.color}` : 'bg-primary-500',
-              {
-                'opacity-50': !member.is_active,
-              },
-            ]"
+            :color="member.color ? member.color : 'primary-500'"
           >
-          </div>
+            <template #trigger>
+              <div
+                class="rounded-full border-2 border-neutral-300 h-11 w-11 hover:bg-red-500"
+                :class="[
+                  member.color ? `bg-${member.color}` : 'bg-primary-500',
+                  {
+                    'opacity-50': !member.is_active,
+                  },
+                ]"
+              >
+              </div>
+            </template>
+            <template #default>{{ member.created_at }}</template>
+          </AppTooltip>
         </div>
       </div>
     </div>
@@ -278,7 +286,7 @@ interface MemberData {
   user_id: number;
   is_admin: number;
   is_active: number;
-  color: string;
+  color: TailwindColor;
   created_at: string;
   updated_at: string;
 }
