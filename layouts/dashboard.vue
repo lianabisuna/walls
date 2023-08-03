@@ -37,6 +37,13 @@ useSeoMeta({
         >
           Create
         </AppButton>
+
+        <!-- Profile -->
+        <AppAvatar
+          color="light"
+          active
+        >
+        </AppAvatar>
       </div>
     </header>
 

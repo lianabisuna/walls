@@ -193,18 +193,15 @@ onMounted(async () => {
             :color="user.color ? user.color : 'primary-500'"
           >
             <template #trigger>
-              <div
-                class="rounded-full border-2 border-neutral-300 h-11 w-11 hover:bg-red-500"
-                :class="[
-                  user.color ? `bg-${user.color}` : 'bg-primary-500',
-                  {
-                    'opacity-50': !user.is_active,
-                  },
-                ]"
+              <AppAvatar
+                :color="user.color ? user.color : 'primary-500'"
+                :active="!!user.is_active"
               >
-              </div>
+              </AppAvatar>
             </template>
-            <template #default>{{ user.first_name }}</template>
+            <template #default>
+              <span>{{ user.first_name }}</span>
+            </template>
           </AppTooltip>
         </div>
       </div>
