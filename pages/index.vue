@@ -169,7 +169,7 @@ async function fetchMembers() {
   try {
     membersLoading.value = true;
     
-    await useBaseFetch('chat/users', {
+    await useBaseFetch('users', {
       method: 'GET',
       onResponse({ response }) {
         const _response = response._data as SuccessResponse<MemberData[]>;
@@ -195,7 +195,7 @@ async function fetchMembers() {
 onMounted(async () => {
   await nextTick();
   fetchRooms();
-  // fetchMembers();
+  fetchMembers();
 })
 </script>
 
@@ -236,7 +236,6 @@ onMounted(async () => {
             v-for="room in roomsData"
             :name="room.name"
             :length="room.members_count"
-            :tags="['Education', 'Politics']"
           >
           </CardRoom>
         </div>
@@ -249,7 +248,7 @@ onMounted(async () => {
             v-for="member in membersData"
             class="rounded-full border-2 border-neutral-300 h-11 w-11 aspect-square"
             :class="[
-              `bg-${member.color ? member.color : 'primary-500'}`,
+              member.color ? `bg-${member.color}` : 'bg-primary-500',
               {
                 'opacity-50': !member.is_active,
               },

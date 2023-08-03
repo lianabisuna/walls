@@ -16,15 +16,15 @@ const props = defineProps({
 	>
 		<!-- Header -->
 		<div class="bg-light p-3">
-			<p class="font-semibold mb-1.5">{{ name }} ({{ length }})</p>
-			<div class="flex gap-1.5">
+			<p class="font-semibold">{{ name }} ({{ length }})</p>
+			<!-- <div class="flex gap-1.5 mt-1.5">
 				<span
 					v-for="tag in tags"
 					class="lowercase text-neutral-500"
 				>
 					#{{ tag }}
 				</span>
-			</div>
+			</div> -->
 		</div>
 
 		<!-- Body -->
