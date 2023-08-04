@@ -17,6 +17,7 @@ const props = defineProps({
   disabled: { type: Boolean as PropType<boolean>, default: false },
   size: { type: String as PropType<FormContainerSize>, default: 'sm' },
   block: { type: Boolean as PropType<boolean>, default: false },
+  hideFocus: { type: Boolean as PropType<boolean>, default: false },
 });
 
 

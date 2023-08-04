@@ -23,6 +23,7 @@ const props = defineProps({
   disabled: { type: Boolean as PropType<boolean>, default: false },
   size: { type: String as PropType<InputSize>, default: 'sm' },
   block: { type: Boolean as PropType<boolean>, default: false },
+  hideFocus: { type: Boolean as PropType<boolean>, default: false },
 })
 
 // Slots
@@ -69,6 +70,7 @@ const sizeClass = computed(() => {
     :disabled="props.disabled"
     :size="props.size"
     :block="props.block"
+    :hide-focus="props.hideFocus"
   >
     <!-- Prepend -->
     <slot name="prepend"></slot>

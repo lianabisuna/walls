@@ -24,33 +24,66 @@ useSeoMeta({
 <template>
   <div class="flex flex-col min-h-screen font-inter font-medium text-dark text-sm">
     <!-- Header -->
-		<header class="flex items-center justify-between h-16 bg-light border-b border-primary-200 px-3 md:px-5">
+		<header class="flex items-center justify-between h-16 bg-light border-b border-neutral-200 pr-3 md:pr-5">
       <div class="flex items-center">
         <!-- Back -->
+        <div class="flex justify-center w-16">
+          <AppButton
+            icon
+            variant="text"
+            tone="light"
+          >
+            <Icon
+              name="ph:arrow-left"
+              class="h-5 w-5 text-dark font-semibold"
+            >
+            </Icon>
+          </AppButton>
+        </div>
+
+        <!-- Name -->
+        <div class="text-lg">General</div>
+      </div>
+
+      <!-- Action -->
+      <div class="flex gap-x-px">
+        <!-- Search -->
         <AppButton
           icon
           variant="text"
           tone="light"
         >
           <Icon
-            name="ph:arrow-left"
+            name="ph:flag"
+            class="h-5 w-5 text-error-500 font-semibold"
+          >
+          </Icon>
+        </AppButton>
+
+        <!-- Report -->
+        <AppButton
+          icon
+          variant="text"
+          tone="light"
+        >
+          <Icon
+            name="ph:magnifying-glass"
             class="h-5 w-5 text-dark font-semibold"
           >
           </Icon>
         </AppButton>
 
-        <!-- Name -->
-        <div>General</div>
-      </div>
-
-      <!-- Action -->
-      <div class="flex gap-x-5">
-        <!-- Edit -->
+        <!-- Pin -->
         <AppButton
-          color="secondary-500"
+          icon
+          variant="text"
           tone="light"
         >
-          Edit
+          <Icon
+            name="ph:push-pin"
+            class="h-5 w-5 text-dark font-semibold"
+          >
+          </Icon>
         </AppButton>
       </div>
     </header>
@@ -58,7 +91,7 @@ useSeoMeta({
     <!-- Content -->
     <main class="flex flex-grow">
       <!-- Sidebar -->
-      <aside class="flex flex-col items-center gap-y-1.5 w-16 border-r border-primary-200 py-3">
+      <aside class="hidden md:flex flex-col items-center gap-y-1.5 min-w-[4rem] bg-light border-r border-neutral-200 py-3 md:py-5">
         <AppAvatar
           v-for="member in 5"
         >
