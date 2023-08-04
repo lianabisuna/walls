@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { TailwindColor } from 'components/app/types';
 import { SuccessResponse, ErrorResponse } from 'services/types';
 import { UserData } from 'stores/authenticationStore';
+import { RoomData } from 'stores/roomStore';
 
 
 // Page Meta
@@ -176,12 +176,16 @@ onMounted(async () => {
           v-else
           class="grid md:grid-cols-3 md: gap-3 md:gap-5"
         >
-          <CardRoom
+          <NuxtLink
             v-for="room in roomsData"
-            :name="room.name"
-            :length="room.members_count"
+            :to="{ path: `/${room.id}` }"
           >
-          </CardRoom>
+            <CardRoom
+              :name="room.name"
+              :length="room.members_count"
+            >
+            </CardRoom>
+          </NuxtLink>
         </div>
       </div>
 
@@ -208,15 +212,3 @@ onMounted(async () => {
     </div>
   </NuxtLayout>
 </template>
-
-<script lang="ts">
-// Types
-interface RoomData {
-  id: number;
-  name: string;
-  created_at: string;
-  updated_at: string;
-  is_private: number;
-  members_count: number;
-}
-</script>

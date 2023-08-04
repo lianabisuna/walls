@@ -19,6 +19,9 @@ useSeoMeta({
   twitterImage: META.IMAGE,
   keywords: "walls, freedom wall, anonymous, social media, social network, community, message, chat",
 });
+
+
+const roomStore = useRoomStore();
 </script>
 
 <template>
@@ -42,7 +45,7 @@ useSeoMeta({
         </div>
 
         <!-- Name -->
-        <div class="text-lg">General</div>
+        <div class="text-lg">{{ roomStore.room.name }}</div>
       </div>
 
       <!-- Action -->
@@ -55,7 +58,7 @@ useSeoMeta({
         >
           <Icon
             name="ph:flag"
-            class="h-5 w-5 text-error-500 font-semibold"
+            class="h-5 w-5 text-dark font-semibold"
           >
           </Icon>
         </AppButton>
