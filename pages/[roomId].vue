@@ -102,48 +102,42 @@ onMounted(async () => {
 
 <template>
   <NuxtLayout name="room">
-    <div class="relative flex-grow bg-neutral-50">
-      <div class="flex-grow min-h-[calc(100vh-4rem)]">
+    <div class="flex flex-col flex-grow bg-neutral-50 max-h-[calc(100vh-4rem)] overflow-hidden">
+      <div class="flex-grow columns-1 md:columns-3 lg:columns-4 p-3 md:p-5 overflow-y-auto">
         <div
-          class="columns-1 md:columns-3 lg:columns-4 p-3 md:p-5"
+          v-for="message in roomStore.roomMessages"
+          class="mb-3"
         >
           <div
-            v-for="message in roomStore.roomMessages"
-            class="mb-3"
+            class="w-full rounded-sm bg-primary-500 text-white p-3"
           >
-            <div
-              class="w-full rounded-sm bg-primary-500 text-white p-3"
-            >
-              {{ message.message }}
-            </div>
+            {{ message.message }}
           </div>
         </div>
       </div>
 
-      <div class="sticky w-full bottom-0 left-0 bg-light">
-        <div class="flex flex-col px-3 pb-3 pt-2 md:px-5 md:pb-5 md:pt-3">
-          <!-- Drag -->
-          <div class="flex items-center justify-center pb-3 md:pb-5">
-            <div class="w-12 bg-neutral-500 rounded-full h-1"></div>
-          </div>
+      <div class="mt-auto bg-light flex flex-col px-3 pb-3 pt-2 md:px-5 md:pb-5 md:pt-3">
+        <!-- Drag -->
+        <div class="flex items-center justify-center pb-3 md:pb-5">
+          <div class="w-12 bg-neutral-500 rounded-full h-1"></div>
+        </div>
 
-          <!-- Input -->
-          <div class="flex gap-x-3">
-            <AppFormInput
-              background-color="neutral-100"
-              border-color="light"
-              placeholder="Write a message..."
-              block
+        <!-- Input -->
+        <div class="flex gap-x-3">
+          <AppFormInput
+            background-color="neutral-100"
+            border-color="light"
+            placeholder="Write a message..."
+            block
+          >
+          </AppFormInput>
+          <button>
+            <Icon
+              name="ph:paper-plane-right-fill"
+              class="h-7 w-7 text-primary-500"
             >
-            </AppFormInput>
-            <button>
-              <Icon
-                name="ph:paper-plane-right-fill"
-                class="h-7 w-7 text-primary-500"
-              >
-              </Icon>
-            </button>
-          </div>
+            </Icon>
+          </button>
         </div>
       </div>
     </div>
