@@ -18,6 +18,10 @@ module.exports = {
       variants: ['hover', 'focus', 'disabled', 'active', 'peer-checked', 'group-focus-within'],
     },
     {
+      pattern: /(bg|text|border|outline)-(avatar)-(1|2|3|4|5|6|7|8)/,
+      variants: ['hover', 'focus', 'disabled', 'active', 'peer-checked', 'group-focus-within'],
+    },
+    {
       pattern: /(bg|text|border|outline)-(dark|light)/,
       variants: ['hover', 'focus', 'disabled', 'active', 'peer-checked', 'group-focus-within'],
     },
@@ -62,6 +66,16 @@ module.exports = {
 				error: colors.red,
 				alert: colors.yellow,
 				info: colors.blue,
+				'avatar': {
+					1: '#B476FB',
+					2: '#FBCC41',
+					3: '#256CFE',
+					4: '#38D7BF',
+					5: '#2BB278',
+					6: '#FA9D25',
+					7: '#FA9D25',
+					8: '#EB4258',
+				},
       },
 			fontSize: {
 				'3xs': '0.5rem',

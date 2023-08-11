@@ -25,4 +25,5 @@ export interface UserData {
   is_active?: number;
   is_admin?: number;
   color?: TailwindColor;
+  username?: string;
 }

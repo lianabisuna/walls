@@ -194,17 +194,17 @@ onMounted(async () => {
         <div class="flex flex-wrap gap-1.5">
           <AppTooltip
             v-for="user in usersData"
-            :color="user.color ? user.color : 'primary-500'"
+            :color="user.color"
           >
             <template #trigger>
               <AppAvatar
-                :color="user.color ? user.color : 'primary-500'"
+                :color="user.color"
                 :active="!!user.is_active"
               >
               </AppAvatar>
             </template>
             <template #default>
-              <span>{{ user.first_name }}</span>
+              <span>{{ user.username }}</span>
             </template>
           </AppTooltip>
         </div>
