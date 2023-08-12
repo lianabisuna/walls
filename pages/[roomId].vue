@@ -108,15 +108,14 @@ onMounted(async () => {
           v-for="message in roomStore.roomMessages"
           class="mb-3"
         >
-          <div
-            class="w-full rounded-sm bg-primary-500 text-white p-3"
+          <CardMessage
+            :message="message"
           >
-            {{ message.message }}
-          </div>
+          </CardMessage>
         </div>
       </div>
 
-      <div class="mt-auto bg-light flex flex-col px-3 pb-3 pt-2 md:px-5 md:pb-5 md:pt-3">
+      <div class="mt-auto bg-light flex flex-col px-3 pb-3 pt-2 md:px-5 md:pb-5 md:pt-3 border-t border-neutral-200">
         <!-- Drag -->
         <div class="flex items-center justify-center pb-3 md:pb-5">
           <div class="w-12 bg-neutral-500 rounded-full h-1"></div>

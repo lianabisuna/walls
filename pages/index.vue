@@ -146,7 +146,6 @@ onMounted(async () => {
 <template>
   <NuxtLayout name="home">
     <div class="flex-grow bg-light p-5 md:p-10 grid grid-cols-4 gap-5 md:gap-7">
-      <!-- Walls -->
       <div class="col-span-full md:col-span-3 flex flex-col gap-5 md:gap-10">
         <!-- Filters -->
         <div class="flex">
@@ -159,7 +158,7 @@ onMounted(async () => {
           </AppFormInput>
         </div>
 
-        <!-- List -->
+        <!-- Rooms -->
         <div
           v-if="roomsLoading"
           class="opacity-75 animate-pulse"
@@ -188,9 +187,9 @@ onMounted(async () => {
           </NuxtLink>
         </div>
       </div>
-
-      <!-- Vandals -->
+      
       <div class="h-fit col-span-full md:col-span-1 bg-neutral-100 rounded-sm p-3 md:p-5">
+        <!-- Members -->
         <div class="flex flex-wrap gap-1.5">
           <AppTooltip
             v-for="user in usersData"
