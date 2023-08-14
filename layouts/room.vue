@@ -22,6 +22,9 @@ useSeoMeta({
 
 
 const roomStore = useRoomStore();
+
+// Router
+const router = useRouter();
 </script>
 
 <template>
@@ -35,6 +38,8 @@ const roomStore = useRoomStore();
             icon
             variant="text"
             tone="light"
+            to="/"
+            @click="()=>router.back()"
           >
             <Icon
               name="ph:arrow-left"

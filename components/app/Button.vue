@@ -97,12 +97,13 @@ const borderClass = computed(() => {
       textClass,
       borderClass,
       {
-        'opacity-50 pointer-events-none': disabled || loading,
+        'opacity-50 pointer-events-none': props.disabled || props.loading,
+        'cursor-pointer': props.to,
       },
     ]"
-    :type="type"
-    :disabled="disabled"
-    :to="to"
+    :type="props.type"
+    :disabled="props.disabled"
+    :to="props.to"
     v-bind="$attrs"
   >
     <slot></slot>
