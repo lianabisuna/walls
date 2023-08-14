@@ -24,7 +24,7 @@ const positionClass = computed(() => {
 </script>
 
 <template>
-	<div class="relative inline-block group">
+	<div class="relative inline-block group z-[1]">
     <slot name="trigger"></slot>
     <div
       :class="[

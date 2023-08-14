@@ -100,10 +100,19 @@ const router = useRouter();
     <main class="flex flex-grow">
       <!-- Sidebar -->
       <aside class="hidden md:flex flex-col items-center gap-y-1.5 min-w-[4rem] bg-light border-r border-neutral-200 py-3 md:py-5">
-        <AppAvatar
-          v-for="member in 5"
+        <AppTooltip
+          v-for="member in roomStore.room.members"
+          position="right"
+          :color="member.color"
         >
-        </AppAvatar>
+          <template #trigger>
+            <AppAvatar
+              :color="member.color"
+            >
+            </AppAvatar>
+          </template>
+          <template #default>{{ member.username }}</template>
+        </AppTooltip>
       </aside>
       <slot></slot>
     </main>

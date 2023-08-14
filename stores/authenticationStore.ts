@@ -1,4 +1,5 @@
 import { TailwindColor } from "components/app/types";
+import { RoomMemberData } from "./roomStore";
 
 export const useAuthenticationStore = defineStore('authentication', () => {
   const user: Ref<UserLoginData> = useCookie('user');
@@ -26,4 +27,5 @@ export interface UserData {
   is_admin?: number;
   color?: TailwindColor;
   username?: string;
+  chat_room_members?: RoomMemberData;
 }

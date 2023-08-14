@@ -52,7 +52,7 @@ const liked = ref(false);
 		</div>
 
 		<div
-			class="hidden group-hover:flex absolute -top-5 left-2 rounded-sm bg-dark text-white min-h-[1.75rem] px-2.5 text-xs items-center select-none"
+			class="hidden group-hover:flex absolute -top-[22px] left-0 rounded-sm bg-dark text-white px-2 min-h-[20px] text-[11px] items-center select-none tracking-wide"
 		>
 			{{ user.username }}
 		</div>

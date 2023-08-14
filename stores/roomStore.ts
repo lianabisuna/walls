@@ -7,7 +7,7 @@ export const useRoomStore = defineStore('room', () => {
     created_at: '',
     updated_at: '',
     is_private: 1,
-    members_count: 0,
+    members: [],
   });
 
   function setRoom(value: RoomData) {
@@ -34,7 +34,13 @@ export interface RoomData {
   created_at: string;
   updated_at: string;
   is_private: number;
-  members_count: number;
+  members: UserData[]
+}
+
+export interface RoomMemberData {
+  chat_room_id: number;
+  is_admin: number;
+  user_id: number;
 }
 
 export interface RoomMessagesData {
