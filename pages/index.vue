@@ -181,7 +181,7 @@ onMounted(async () => {
           >
             <CardRoom
               :name="room.name"
-              :length="room.members?.length"
+              :length="room.members_count"
               :private="!!room.is_private"
             >
             </CardRoom>
