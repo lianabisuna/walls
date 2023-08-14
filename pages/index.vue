@@ -19,7 +19,7 @@ definePageMeta({
 //     created_at: "2023-07-28 13:06:39",
 //     updated_at: "2023-07-28 13:06:39",
 //     is_private: 0,
-//     members: [],
+//     members:_count: 0,
 //   },
 //   {
 //     id: 1,
@@ -27,7 +27,7 @@ definePageMeta({
 //     created_at: "2023-07-28 13:06:39",
 //     updated_at: "2023-07-28 13:06:39",
 //     is_private: 0,
-//     members: [],
+//     members:_count: 0,
 //   },
 //   {
 //     id: 2,
@@ -35,7 +35,7 @@ definePageMeta({
 //     created_at: "2023-07-28 13:06:39",
 //     updated_at: "2023-07-28 13:06:39",
 //     is_private: 0,
-//     members: [],
+//     members:_count: 0,
 //   },
 //   {
 //     id: 3,
@@ -43,7 +43,7 @@ definePageMeta({
 //     created_at: "2023-07-28 13:06:39",
 //     updated_at: "2023-07-28 13:06:39",
 //     is_private: 0,
-//     members: [],
+//     members:_count: 0,
 //   },
 //   {
 //     id: 4,
@@ -51,7 +51,7 @@ definePageMeta({
 //     created_at: "2023-07-28 13:06:39",
 //     updated_at: "2023-07-28 13:06:39",
 //     is_private: 0,
-//     members: [],
+//     members:_count: 0,
 //   },
 // ];
 
@@ -181,7 +181,8 @@ onMounted(async () => {
           >
             <CardRoom
               :name="room.name"
-              :length="room.members.length"
+              :length="room.members?.length"
+              :private="!!room.is_private"
             >
             </CardRoom>
           </NuxtLink>

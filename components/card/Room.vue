@@ -7,6 +7,7 @@ const props = defineProps({
 	name: { type: String as PropType<string>, default: '' },
 	length: { type: Number as PropType<number>, default: 0 },
 	tags: { type: Array as PropType<string[]>, default: ()=>[] },
+	private: { type: Boolean as PropType<boolean>, default: false },
 });
 </script>
 
@@ -16,7 +17,17 @@ const props = defineProps({
 	>
 		<!-- Header -->
 		<div class="bg-light p-3">
-			<p class="font-semibold">{{ name }} ({{ length }})</p>
+			<div class="flex items-center justify-between">
+				<div class="font-semibold">
+					<duv>{{ name }}<span v-if="props.private"> ({{ length }})</span></duv>
+				</div>
+				<div v-if="props.private">
+					<Icon
+						name="ph:lock"
+						class="text-neutral-500"
+					></Icon>
+				</div>
+			</div>
 			<!-- <div class="flex gap-1.5 mt-1.5">
 				<span
 					v-for="tag in tags"

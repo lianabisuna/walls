@@ -34,7 +34,8 @@ export interface RoomData {
   created_at: string;
   updated_at: string;
   is_private: number;
-  members: UserData[]
+  members?: UserData[]
+  members_count?: number;
 }
 
 export interface RoomMemberData {
