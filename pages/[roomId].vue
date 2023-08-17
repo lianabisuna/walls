@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ErrorResponse, SuccessResponse } from 'services/types';
 import { RoomData, RoomMessagesData } from 'stores/roomStore';
+import * as Yup from 'yup';
 
 // Page Meta
 definePageMeta({
@@ -28,16 +29,16 @@ async function fetchRoom() {
       method: 'GET',
       onResponse({ response }) {
         const _response = response._data as SuccessResponse<RoomData>;
-        setRoom(_response.success.data);
+        setRoom(_response.data);
 
         // TO DO: Add message as toast
-        console.log(_response.success.message);
+        console.log(_response.message);
       },
       onResponseError({ response }) {
         const _response = response._data as ErrorResponse<any, any>;
 
         // TO DO: Add message as toast
-        console.error('error', _response.error.message);
+        console.error('error', _response.message);
       },
     })
 
@@ -60,16 +61,16 @@ async function fetchRoomMessages() {
       method: 'GET',
       onResponse({ response }) {
         const _response = response._data as SuccessResponse<RoomMessagesData[]>;
-        setRoomMessages(_response.success.data);
+        setRoomMessages(_response.data);
 
         // TO DO: Add message as toast
-        console.log(_response.success.message);
+        console.log(_response.message);
       },
       onResponseError({ response }) {
         const _response = response._data as ErrorResponse<any, any>;
 
         // TO DO: Add message as toast
-        console.error('error', _response.error.message);
+        console.error('error', _response.message);
       },
     })
 
@@ -98,6 +99,72 @@ onMounted(async () => {
 //   console.log(newArr);
 //   return newArr;
 // })
+
+
+
+
+
+/** FORM VALIDATION */
+
+const schema = Yup.object({
+  message: Yup
+    .string()
+    .required(),
+});
+
+
+const { setErrors, isSubmitting, handleSubmit } = useForm({
+  validationSchema: schema,
+});
+
+const onSubmit = handleSubmit(async (values: Record<any, any>) => {
+  try {
+    // Run register API
+    const { error, data } = await useBaseFetch(`chat/rooms/${route.params.roomId}/messages`, {
+      method: 'POST',
+      body: {
+        message: values.message,
+      },
+    });
+
+    
+    /** HANDLE API RESPONSE */
+
+    const successResponse = data.value as SuccessResponse;
+    const errorResponse = error.value?.data as ErrorResponse<any, CreateMessageForm>;
+
+    // Handle success response
+    if (successResponse?.message) {
+      // TO DO: Add message as toast
+      console.log(successResponse.message);
+
+      // Navigate to login
+      alert('success');
+      return;
+    }
+
+    // Handle error response
+    if (errorResponse?.message) {
+      // TO DO: Add message as toast
+      console.log(errorResponse.message);
+      
+      // Get errors
+      // const errorFields = errorResponse.error.errors;
+
+      // Set errors
+      // setErrors({
+      //   username: errorFields?.first_name || errorFields?.last_name,
+      //   email: errorFields?.email,
+      //   password: errorFields?.password,
+      //   password_confirmation: errorFields?.password_confirmation,
+      // });
+
+      alert('failed');
+    }
+  } catch(e) {
+    console.error(e);
+  }
+});
 </script>
 
 <template>
@@ -121,27 +188,45 @@ onMounted(async () => {
           <div class="w-12 bg-neutral-500 rounded-full h-1"></div>
         </div>
 
-        <!-- Input -->
-        <div class="flex gap-x-3">
+        <form
+          @submit="onSubmit"
+          class="flex gap-x-3"
+          novalidate
+        >
+          <!-- Message -->
           <AppFormInput
+            name="message"
             background-color="neutral-100"
             border-color="light"
             placeholder="Write a message..."
+            input-container-class="group-focus-within:border-transparent"
+            :disabled="isSubmitting"
+            :loading="isSubmitting"
             block
           >
           </AppFormInput>
-          <button>
+
+          <!-- Send -->
+          <button
+            type="submit"
+            :disabled="isSubmitting"
+            :loading="isSubmitting"
+          >
             <Icon
-              name="ph:paper-plane-right-fill"
+              name="fe:paper-plane"
               class="h-7 w-7 text-primary-500"
             >
             </Icon>
           </button>
-        </div>
+        </form>
       </div>
     </div>
   </NuxtLayout>
 </template>
 
 <script lang="ts">
+// Types
+interface CreateMessageForm {
+  message: string;
+}
 </script>

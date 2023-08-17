@@ -11,6 +11,7 @@ const props = defineProps({
   placeholder: { type: String as PropType<string>, default: '' },
   type: { type: String as PropType<HTMLInputType>, default: 'text' },
   inputClass: { type: [Array,String] as PropType<ClassBinding>, default: '' },
+  inputContainerClass: { type: [Array,String] as PropType<ClassBinding>, default: '' },
   /** Form Container */
   backgroundColor: { type: String as PropType<TailwindColor>, default: 'light' },
   borderColor: { type: String as PropType<TailwindColor>, default: 'neutral-500' },
@@ -23,7 +24,6 @@ const props = defineProps({
   disabled: { type: Boolean as PropType<boolean>, default: false },
   size: { type: String as PropType<InputSize>, default: 'sm' },
   block: { type: Boolean as PropType<boolean>, default: false },
-  hideFocus: { type: Boolean as PropType<boolean>, default: false },
 })
 
 // Slots
@@ -59,6 +59,7 @@ const sizeClass = computed(() => {
 	<AppFormContainer
     v-slot="{ fieldData }"
     :name="props.name"
+    :input-container-class="props.inputContainerClass"
     :background-color="props.backgroundColor"
     :border-color="props.borderColor"
     :color="props.color"
@@ -70,7 +71,6 @@ const sizeClass = computed(() => {
     :disabled="props.disabled"
     :size="props.size"
     :block="props.block"
-    :hide-focus="props.hideFocus"
   >
     <!-- Prepend -->
     <slot name="prepend"></slot>
@@ -86,11 +86,11 @@ const sizeClass = computed(() => {
       :readonly="props.readonly"
       :class="[
         sizeClass,
-				inputClass,
+				props.inputClass,
         {
           'ml-2': slots.prepend,
           'mr-2': slots.append,
-          'w-full': block
+          'w-full': props.block
         },
       ]"
       class="peer flex flex-1 bg-transparent outline-none"

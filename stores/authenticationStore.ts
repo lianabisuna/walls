@@ -27,5 +27,5 @@ export interface UserData {
   is_admin?: number;
   color?: TailwindColor;
   username?: string;
-  chat_room_members?: RoomMemberData;
+  chat_room_membership?: RoomMemberData;
 }

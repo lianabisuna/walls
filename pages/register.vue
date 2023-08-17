@@ -45,11 +45,13 @@ const onSubmit = handleSubmit(async (values: Record<any, any>) => {
     const { error, data } = await useBaseFetch('register', {
       method: 'POST',
       body: {
-        first_name: values.username, // TO DO: Change to "username"
-        last_name: values.username, // TO REMOVE
+        first_name: values.username, // TO CHANGE
+        last_name: values.username, // TO CHANGE
+        username: values.username,
         email: values.email,
         password: values.password,
         password_confirmation: values.password_confirmation,
+        color: 'avatar-1',
       },
     });
 
@@ -60,9 +62,9 @@ const onSubmit = handleSubmit(async (values: Record<any, any>) => {
     const errorResponse = error.value?.data as ErrorResponse<any, RegisterForm>;
 
     // Handle success response
-    if (successResponse?.success) {
+    if (successResponse?.message) {
       // TO DO: Add message as toast
-      console.log(successResponse.success.message);
+      console.log(successResponse.message);
 
       // Navigate to login
       navigateTo({ path: '/login' });
@@ -70,16 +72,16 @@ const onSubmit = handleSubmit(async (values: Record<any, any>) => {
     }
 
     // Handle error response
-    if (errorResponse?.error) {
+    if (errorResponse?.message) {
       // TO DO: Add message as toast
-      console.log(errorResponse.error.message);
+      console.log(errorResponse.message);
       
       // Get errors
-      const errorFields = errorResponse.error.errors;
+      const errorFields = errorResponse.errors;
 
       // Set errors
       setErrors({
-        username: errorFields?.first_name || errorFields?.last_name,
+        username: errorFields?.username,
         email: errorFields?.email,
         password: errorFields?.password,
         password_confirmation: errorFields?.password_confirmation,

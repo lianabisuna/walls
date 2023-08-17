@@ -84,16 +84,16 @@ async function fetchRooms() {
       method: 'GET',
       onResponse({ response }) {
         const _response = response._data as SuccessResponse<RoomData[]>;
-        roomsData.value = _response.success.data;
+        roomsData.value = _response.data;
 
         // TO DO: Add message as toast
-        console.log(_response.success.message);
+        console.log(_response.message);
       },
       onResponseError({ response }) {
         const _response = response._data as ErrorResponse<any, any>;
 
         // TO DO: Add message as toast
-        console.error('error', _response.error.message);
+        console.error('error', _response.message);
       },
     })
 
@@ -117,16 +117,16 @@ async function fetchUsers() {
       method: 'GET',
       onResponse({ response }) {
         const _response = response._data as SuccessResponse<UserData[]>;
-        usersData.value = _response.success.data;
+        usersData.value = _response.data;
 
         // TO DO: Add message as toast
-        console.log(_response.success.message);
+        console.log(_response.message);
       },
       onResponseError({ response }) {
         const _response = response._data as ErrorResponse<any, any>;
 
         // TO DO: Add message as toast
-        console.error('error', _response.error.message);
+        console.error('error', _response.message);
       },
     })
 

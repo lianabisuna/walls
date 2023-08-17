@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 // Imports
-import type { TailwindColor } from './types'
+import type { ClassBinding, TailwindColor } from './types'
 
 // Props
 const props = defineProps({
   name: { type: String as PropType<string>, default: '' },
+  inputContainerClass: { type: [Array,String] as PropType<ClassBinding>, default: '' },
   /** Form Container */
   backgroundColor: { type: String as PropType<TailwindColor>, default: 'light' },
   borderColor: { type: String as PropType<TailwindColor>, default: 'neutral-500' },
@@ -17,7 +18,6 @@ const props = defineProps({
   disabled: { type: Boolean as PropType<boolean>, default: false },
   size: { type: String as PropType<FormContainerSize>, default: 'sm' },
   block: { type: Boolean as PropType<boolean>, default: false },
-  hideFocus: { type: Boolean as PropType<boolean>, default: false },
 });
 
 
@@ -74,6 +74,7 @@ function onClickContainer() {
       <div
         :class="[
           sizeClass,
+          props.inputContainerClass,
           `bg-${props.backgroundColor}`,
           props.error || !!fieldData.errorMessage
             ? 'border border-error-500 group-focus-within:border-error-500'

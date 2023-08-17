@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { SuccessResponse, ErrorResponse } from 'services/types';
-import { UserData } from 'stores/authenticationStore';
+import { UserData, UserLoginData } from 'stores/authenticationStore';
 import * as Yup from 'yup';
 
 
@@ -43,15 +43,15 @@ const onSubmit = handleSubmit(async (values: Record<any, any>) => {
     
     /** HANDLE API RESPONSE */
 
-    const successResponse = data.value as SuccessResponse<UserData>;
+    const successResponse = data.value as SuccessResponse<UserLoginData>;
     const errorResponse = error.value?.data as ErrorResponse<any, LoginForm>;
 
     // Handle success response
-    if (successResponse?.success) {
+    if (successResponse?.message) {
       // TO DO: Add message as toast
-      console.log(successResponse.success.message);
+      console.log(successResponse.message);
 
-      setUser(successResponse.success.data);
+      setUser(successResponse.data);
 
       // Navigate to login
       navigateTo({ path: '/' });
@@ -59,12 +59,12 @@ const onSubmit = handleSubmit(async (values: Record<any, any>) => {
     }
 
     // Handle error response
-    if (errorResponse?.error) {
+    if (errorResponse?.message) {
       // TO DO: Add message as toast
-      console.log(errorResponse.error.message);
+      console.log(errorResponse.message);
       
       // Get errors
-      const errorFields = errorResponse.error.errors;
+      const errorFields = errorResponse.errors;
 
       // Set errors
       setErrors({
