@@ -19,7 +19,7 @@ const props = defineProps({
 		<div class="bg-light p-3">
 			<div class="flex items-center justify-between">
 				<div class="font-semibold">
-					<duv>{{ name }}<span v-if="props.private"> ({{ length }})</span></duv>
+					<div>{{ name }}<span v-if="props.private"> ({{ length }})</span></div>
 				</div>
 				<div v-if="props.private">
 					<Icon
