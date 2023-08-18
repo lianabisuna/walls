@@ -51,10 +51,10 @@ const liked = ref(false);
 			</div>
 		</div>
 
-		<div
+		<!-- <div
 			class="hidden group-hover:flex absolute -top-[22px] left-0 rounded-sm bg-dark text-white px-2 min-h-[20px] text-[11px] items-center select-none tracking-wide"
 		>
 			{{ user.username }}
-		</div>
+		</div> -->
 	</div>
 </template>
