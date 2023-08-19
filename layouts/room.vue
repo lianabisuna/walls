@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const META = {
-  TITLE: "Walls - Talk behind closed doors",
+  TITLE: "Walls",
   DESCRIPTION: "A digital space where you can about anything under a pseudonym.",
   IMAGE: "https://example.com/image.png",
   URL: "https://example.com",
