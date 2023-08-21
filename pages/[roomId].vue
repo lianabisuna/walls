@@ -2,6 +2,7 @@
 import { ErrorResponse, SuccessResponse } from 'services/types';
 import { RoomData, RoomMessagesData } from 'stores/roomStore';
 import * as Yup from 'yup';
+import { useElementSize } from '@vueuse/core'
 
 // Page Meta
 definePageMeta({
@@ -165,6 +166,38 @@ const onSubmit = handleSubmit(async (values: Record<any, any>) => {
     console.error(e);
   }
 });
+
+
+/** RESIZE MESSAGE PANEL */
+
+const PANEL_BORDER_SIZE = 20;
+
+const panelRef = ref<HTMLElement>();
+
+const panelInitialPosition = ref(0);
+const panelInitialHeight = ref(0);
+
+const panelHeight = ref(0);
+
+function resizePanel(e: MouseEvent) {
+  const positionY = panelInitialPosition.value - e.y;
+  panelHeight.value = panelInitialHeight.value + positionY;
+}
+
+function onPanelMousedown(e: MouseEvent) {
+  // Check if cursor is less than panel border
+  if ( !(e.offsetY < PANEL_BORDER_SIZE) ) return;
+
+  panelInitialPosition.value = e.y;
+  panelInitialHeight.value = panelHeight.value;
+  useEventListener(document, 'mousemove', resizePanel);
+}
+
+onMounted(() => {
+  useEventListener(document, 'mouseup', (e) => {
+    document.removeEventListener('mousemove', resizePanel, false);
+  });
+})
 </script>
 
 <template>
@@ -182,12 +215,16 @@ const onSubmit = handleSubmit(async (values: Record<any, any>) => {
         </div>
       </div>
 
-      <div class="mt-auto bg-light flex flex-col px-3 pb-3 pt-2 md:px-5 md:pb-5 md:pt-3 border-t border-neutral-200">
-        <!-- Drag -->
-        <div class="flex items-center justify-center pb-3 md:pb-5">
-          <div class="w-12 bg-neutral-500 rounded-full h-1"></div>
-        </div>
-
+      <div
+        ref="panelRef"
+        class="
+          relative mt-auto bg-light flex flex-col px-3 pb-3 pt-2 md:px-5 md:pb-0 md:pt-8 border-t border-neutral-200 pointer-events-none flex-shrink-0
+          after:w-full after:h-5 after:absolute after:top-0 after:left-0 after:cursor-n-resize after:pointer-events-auto
+          before:w-12 before:h-1 before:absolute before:top-2 before:left-1/2 before:-translate-x-1/2 before:cursor-n-resize before:pointer-events-auto before:z-[1] before:rounded-full before:bg-neutral-500 hover:before:bg-neutral-600
+        "
+        :style="{ 'height': `${panelHeight}px` }"
+        @mousedown="onPanelMousedown"
+      >
         <form
           @submit="onSubmit"
           class="flex gap-x-3"
