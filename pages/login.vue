@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { SuccessResponse, ErrorResponse } from 'services/types';
-import { UserData, UserLoginData } from 'stores/authenticationStore';
+import { UserLoginData } from 'stores/authenticationStore';
 import * as Yup from 'yup';
 
 
