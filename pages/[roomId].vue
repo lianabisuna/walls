@@ -2,7 +2,6 @@
 import { ErrorResponse, SuccessResponse } from 'services/types';
 import { RoomData, RoomMessagesData } from 'stores/roomStore';
 import * as Yup from 'yup';
-import { useElementSize } from '@vueuse/core'
 
 // Page Meta
 definePageMeta({
