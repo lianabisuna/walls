@@ -1,5 +1,3 @@
-import type { AxiosStatic } from "axios";
-
 export class Factory {
 	base = '';
   axios = () => useNuxtApp().$axios;

@@ -38,40 +38,33 @@ const onSubmit = handleSubmit(async (values: Record<any, any>) => {
         email: values.email,
         password: values.password,
       },
+      onResponse({ response }) {
+        const _response = response._data as SuccessResponse<UserLoginData>;
+
+        setUser(_response.data);
+
+        // Navigate to login
+        navigateTo({ path: '/' });
+
+        // TO DO: Add message as toast
+        console.log(_response.message);
+      },
+      onResponseError({ response }) {
+        const _response = response._data as ErrorResponse<any, LoginForm>;
+
+        // TO DO: Add message as toast
+        console.error('error', _response.message);
+
+        // Get errors
+        const errorFields = _response.errors;
+
+        // Set errors
+        setErrors({
+          email: errorFields?.email,
+          password: errorFields?.password,
+        });
+      },
     });
-
-    
-    /** HANDLE API RESPONSE */
-
-    const successResponse = data.value as SuccessResponse<UserLoginData>;
-    const errorResponse = error.value?.data as ErrorResponse<any, LoginForm>;
-
-    // Handle success response
-    if (successResponse?.message) {
-      // TO DO: Add message as toast
-      console.log(successResponse.message);
-
-      setUser(successResponse.data);
-
-      // Navigate to login
-      navigateTo({ path: '/' });
-      return;
-    }
-
-    // Handle error response
-    if (errorResponse?.message) {
-      // TO DO: Add message as toast
-      console.log(errorResponse.message);
-      
-      // Get errors
-      const errorFields = errorResponse.errors;
-
-      // Set errors
-      setErrors({
-        email: errorFields?.email,
-        password: errorFields?.password,
-      });
-    }
   } catch(e) {
     console.error(e);
   }

@@ -1,4 +1,3 @@
-import type { AxiosStatic } from 'axios';
 import { Factory } from './Factory';
 
 export class User extends Factory {
