@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { TailwindColor } from 'components/app/types';
 import { RoomMessagesData } from 'stores/roomStore';
 
 // Props
@@ -20,9 +19,7 @@ const liked = ref(false);
 <template>
 	<div
 		class="group relative rounded-sm text-white p-3"
-		:class="[
-			`bg-${user.color}`
-		]"
+		:style="{ 'backgroundColor': user.color }"
 	>
 		<div class="break-inside-avoid-column">
 			<div class="leading-relaxed">{{ _message.message }}</div>

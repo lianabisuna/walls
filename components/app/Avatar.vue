@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { AvatarSize, RoundedSize, TailwindColor } from './types';
+import { AvatarSize, HexColor } from './types';
 
 // Props
 const props = defineProps({
   src: { type: String as PropType<string>, default: '' },
-  color: { type: String as PropType<TailwindColor>, default: 'primary-500' },
+  hexColor: { type: String as PropType<HexColor>, default: '' },
   size: { type: String as PropType<AvatarSize>, default: '' },
-  rounded: { type: [Boolean,String] as PropType<RoundedSize>, default: 'full' },
   active: { type: Boolean as PropType<boolean>, default: false },
 })
 
@@ -22,11 +21,6 @@ const sizeClass = computed(() => {
     case 'md': default: return 'w-11 h-11';
   }
 })
-
-const roundedClass = computed(() => {
-  if (props.rounded) return `rounded-${props.rounded}`;
-  else return '';
-})
 </script>
 
 <template>
@@ -36,14 +30,13 @@ const roundedClass = computed(() => {
 		class="flex items-center justify-center rounded-full border-2 border-neutral-300 h-11 w-11"
 		:class="[
       sizeClass,
-			roundedClass,
-			props.color ? `bg-${props.color}` : '',
 			{
 				'opacity-50': !props.active,
 				'object-cover': props.src,
 			},
 		]"
     v-bind="$attrs"
+    :style="{ 'backgroundColor': props.hexColor }"
 	>
 		<slot></slot>
 	</component>

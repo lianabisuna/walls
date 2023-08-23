@@ -40,7 +40,7 @@ useSeoMeta({
 
         <!-- Profile -->
         <AppAvatar
-          color="light"
+          hex-color="#ffcc00"
           active
         >
         </AppAvatar>

@@ -51,7 +51,7 @@ const onSubmit = handleSubmit(async (values: Record<any, any>) => {
         email: values.email,
         password: values.password,
         password_confirmation: values.password_confirmation,
-        color: 'avatar-1',
+        color: '#ffcc00',
       },
       onResponse({ response }) {
         const _response = response._data as SuccessResponse;

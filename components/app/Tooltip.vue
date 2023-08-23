@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TailwindColor, TooltipPosition } from './types'
+import type { HexColor, TooltipPosition } from './types'
 
 // Types
 
@@ -7,7 +7,7 @@ import type { TailwindColor, TooltipPosition } from './types'
 // Props
 const props = defineProps({
   position: { type: String as PropType<TooltipPosition>, default: 'top' },
-  color: { type: String as PropType<TailwindColor>, default: 'gray-500' },
+  hexColor: { type: String as PropType<HexColor>, default: '' },
 })
 
 
@@ -28,10 +28,10 @@ const positionClass = computed(() => {
     <slot name="trigger"></slot>
     <div
       :class="[
-        `bg-${color}`,
         positionClass,
       ]"
       class="absolute whitespace-nowrap rounded-sm py-1 px-2 text-white hidden group-hover:block"
+      :style="{ 'backgroundColor': props.hexColor }"
     >
       <slot></slot>
     </div>

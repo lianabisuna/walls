@@ -8,24 +8,24 @@ module.exports = {
     "./plugins/**/*.{js,ts}",
     "./nuxt.config.{js,ts}",
   ],
-  // safelist: [
-  //   {
-  //     pattern: /(bg|text|border|outline)-(primary|secondary|neutral|accent|success|error|alert|info)-(100|200|300|400|500|600|700|800|900)/,
-  //     variants: ['hover', 'focus', 'disabled', 'active', 'peer-checked', 'group-focus-within'],
-  //   },
-  //   {
-  //     pattern: /(bg|text|border|outline)-(red|emerald|blue|sky|green|purple|yellow|blue)-(100|200|300|400|500|600|700|800|900)/,
-  //     variants: ['hover', 'focus', 'disabled', 'active', 'peer-checked', 'group-focus-within'],
-  //   },
-  //   {
-  //     pattern: /(bg|text|border|outline)-(avatar)-(1|2|3|4|5|6|7|8)/,
-  //     variants: ['hover', 'focus', 'disabled', 'active', 'peer-checked', 'group-focus-within'],
-  //   },
-  //   {
-  //     pattern: /(bg|text|border|outline)-(dark|light)/,
-  //     variants: ['hover', 'focus', 'disabled', 'active', 'peer-checked', 'group-focus-within'],
-  //   },
-  // ],
+  safelist: [
+    {
+      pattern: /(bg|text|border)-(primary|secondary|neutral)-(100|500)/,
+      variants: ['hover', 'active'],
+    },
+    {
+      pattern: /(bg|text|border)-(primary|secondary|neutral)-(100|500)\/(75|90)/,
+      variants: ['hover', 'active'],
+    },
+    {
+      pattern: /(bg|text|border)-(light|dark)/,
+      variants: ['hover', 'active'],
+    },
+    {
+      pattern: /(bg|text|border)-(light|dark)\/(75|90)/,
+      variants: ['hover', 'active'],
+    },
+  ],
   theme: {
     extend: {
 			/**

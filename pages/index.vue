@@ -194,11 +194,11 @@ onMounted(async () => {
         <div class="flex flex-wrap gap-1.5">
           <AppTooltip
             v-for="user in usersData"
-            :color="user.color"
+            :hex-color="user.color"
           >
             <template #trigger>
               <AppAvatar
-                :color="user.color"
+                :hex-color="user.color"
                 :active="!!user.is_active"
               >
               </AppAvatar>

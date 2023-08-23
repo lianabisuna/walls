@@ -106,11 +106,11 @@ const router = useRouter();
         <AppTooltip
           v-for="member in roomStore.room.members"
           position="right"
-          :color="member.color"
+          :hex-color="member.color"
         >
           <template #trigger>
             <AppAvatar
-              :color="member.color"
+              :hex-color="member.color"
             >
             </AppAvatar>
           </template>
