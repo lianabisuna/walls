@@ -6,7 +6,7 @@ import { RoomData } from 'stores/roomStore';
 
 // Page Meta
 definePageMeta({
-  // middleware: ['authentication'],
+  middleware: ['authentication'],
   layout: false,
 });
 

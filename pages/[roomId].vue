@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 
 // Page Meta
 definePageMeta({
-  // middleware: ['authentication'],
+  middleware: ['authentication'],
   layout: false,
 });
 
@@ -25,22 +25,22 @@ async function fetchRoom() {
   try {
     roomLoading.value = true;
     
-    // await useBaseFetch(`chat/rooms/${route.params.roomId}`, {
-    //   method: 'GET',
-    //   onResponse({ response }) {
-    //     const _response = response._data as SuccessResponse<RoomData>;
-    //     setRoom(_response.data);
+    await useBaseFetch(`chat/rooms/${route.params.roomId}`, {
+      method: 'GET',
+      onResponse({ response }) {
+        const _response = response._data as SuccessResponse<RoomData>;
+        setRoom(_response.data);
 
-    //     // TO DO: Add message as toast
-    //     console.log(_response.message);
-    //   },
-    //   onResponseError({ response }) {
-    //     const _response = response._data as ErrorResponse<any, any>;
+        // TO DO: Add message as toast
+        console.log(_response.message);
+      },
+      onResponseError({ response }) {
+        const _response = response._data as ErrorResponse<any, any>;
 
-    //     // TO DO: Add message as toast
-    //     console.error('error', _response.message);
-    //   },
-    // })
+        // TO DO: Add message as toast
+        console.error('error', _response.message);
+      },
+    })
 
     roomLoading.value = false;
   } catch(e) {
@@ -57,22 +57,22 @@ async function fetchRoomMessages() {
   try {
     roomMessagesLoading.value = true;
     
-    // await useBaseFetch(`chat/rooms/${route.params.roomId}/messages`, {
-    //   method: 'GET',
-    //   onResponse({ response }) {
-    //     const _response = response._data as SuccessResponse<RoomMessagesData[]>;
-    //     setRoomMessages(_response.data);
+    await useBaseFetch(`chat/rooms/${route.params.roomId}/messages`, {
+      method: 'GET',
+      onResponse({ response }) {
+        const _response = response._data as SuccessResponse<RoomMessagesData[]>;
+        setRoomMessages(_response.data);
 
-    //     // TO DO: Add message as toast
-    //     console.log(_response.message);
-    //   },
-    //   onResponseError({ response }) {
-    //     const _response = response._data as ErrorResponse<any, any>;
+        // TO DO: Add message as toast
+        console.log(_response.message);
+      },
+      onResponseError({ response }) {
+        const _response = response._data as ErrorResponse<any, any>;
 
-    //     // TO DO: Add message as toast
-    //     console.error('error', _response.message);
-    //   },
-    // })
+        // TO DO: Add message as toast
+        console.error('error', _response.message);
+      },
+    })
 
     roomMessagesLoading.value = false;
   } catch(e) {
@@ -113,54 +113,54 @@ const schema = Yup.object({
 });
 
 
-const { setErrors, isSubmitting, handleSubmit } = useForm({
+const { isSubmitting, handleSubmit } = useForm({
   validationSchema: schema,
 });
 
 const onSubmit = handleSubmit(async (values: Record<any, any>) => {
   try {
-    // // Run register API
-    // // const { error, data } = await useBaseFetch(`chat/rooms/${route.params.roomId}/messages`, {
-    // //   method: 'POST',
-    // //   body: {
-    // //     message: values.message,
-    // //   },
-    // // });
+    // Run register API
+    const { error, data } = await useBaseFetch(`chat/rooms/${route.params.roomId}/messages`, {
+      method: 'POST',
+      body: {
+        message: values.message,
+      },
+    });
 
     
-    // /** HANDLE API RESPONSE */
+    /** HANDLE API RESPONSE */
 
-    // const successResponse = data.value as SuccessResponse;
-    // const errorResponse = error.value?.data as ErrorResponse<any, CreateMessageForm>;
+    const successResponse = data.value as SuccessResponse;
+    const errorResponse = error.value?.data as ErrorResponse<any, CreateMessageForm>;
 
-    // // Handle success response
-    // if (successResponse?.message) {
-    //   // TO DO: Add message as toast
-    //   console.log(successResponse.message);
+    // Handle success response
+    if (successResponse?.message) {
+      // TO DO: Add message as toast
+      console.log(successResponse.message);
 
-    //   // Navigate to login
-    //   alert('success');
-    //   return;
-    // }
+      // Navigate to login
+      alert('success');
+      return;
+    }
 
-    // // Handle error response
-    // if (errorResponse?.message) {
-    //   // TO DO: Add message as toast
-    //   console.log(errorResponse.message);
+    // Handle error response
+    if (errorResponse?.message) {
+      // TO DO: Add message as toast
+      console.log(errorResponse.message);
       
-    //   // Get errors
-    //   // const errorFields = errorResponse.error.errors;
+      // Get errors
+      // const errorFields = errorResponse.error.errors;
 
-    //   // Set errors
-    //   // setErrors({
-    //   //   username: errorFields?.first_name || errorFields?.last_name,
-    //   //   email: errorFields?.email,
-    //   //   password: errorFields?.password,
-    //   //   password_confirmation: errorFields?.password_confirmation,
-    //   // });
+      // Set errors
+      // setErrors({
+      //   username: errorFields?.first_name || errorFields?.last_name,
+      //   email: errorFields?.email,
+      //   password: errorFields?.password,
+      //   password_confirmation: errorFields?.password_confirmation,
+      // });
 
-    //   alert('failed');
-    // }
+      alert('failed');
+    }
   } catch(e) {
     console.error(e);
   }
