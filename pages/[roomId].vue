@@ -184,7 +184,7 @@ function resizePanel(e: MouseEvent) {
 }
 
 function onPanelMousedown(e: MouseEvent) {
-  Check if cursor is less than panel border
+  // Check if cursor is less than panel border
   if ( !(e.offsetY < PANEL_BORDER_SIZE) ) return;
 
   panelInitialPosition.value = e.y;
