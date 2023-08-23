@@ -42,7 +42,7 @@ const { setErrors, isSubmitting, handleSubmit, meta } = useForm({
 const onSubmit = handleSubmit(async (values: Record<any, any>) => {
   try {
     // Run register API
-    const { error, data } = await useBaseFetch('register', {
+    await useBaseFetch('register', {
       method: 'POST',
       body: {
         first_name: values.username, // TO CHANGE
@@ -53,40 +53,33 @@ const onSubmit = handleSubmit(async (values: Record<any, any>) => {
         password_confirmation: values.password_confirmation,
         color: 'avatar-1',
       },
+      onResponse({ response }) {
+        const _response = response._data as SuccessResponse;
+
+        // Navigate to login
+        navigateTo({ path: '/login' });
+
+        // TO DO: Add message as toast
+        console.log(_response.message);
+      },
+      onResponseError({ response }) {
+        const _response = response._data as ErrorResponse<any, RegisterForm>;
+
+        // TO DO: Add message as toast
+        console.error('error', _response.message);
+
+        // Get errors
+        const errorFields = _response.errors;
+
+        // Set errors
+        setErrors({
+          username: errorFields?.username,
+          email: errorFields?.email,
+          password: errorFields?.password,
+          password_confirmation: errorFields?.password_confirmation,
+        });
+      },
     });
-
-    
-    /** HANDLE API RESPONSE */
-
-    const successResponse = data.value as SuccessResponse;
-    const errorResponse = error.value?.data as ErrorResponse<any, RegisterForm>;
-
-    // Handle success response
-    if (successResponse?.message) {
-      // TO DO: Add message as toast
-      console.log(successResponse.message);
-
-      // Navigate to login
-      navigateTo({ path: '/login' });
-      return;
-    }
-
-    // Handle error response
-    if (errorResponse?.message) {
-      // TO DO: Add message as toast
-      console.log(errorResponse.message);
-      
-      // Get errors
-      const errorFields = errorResponse.errors;
-
-      // Set errors
-      setErrors({
-        username: errorFields?.username,
-        email: errorFields?.email,
-        password: errorFields?.password,
-        password_confirmation: errorFields?.password_confirmation,
-      });
-    }
   } catch(e) {
     console.error(e);
   }

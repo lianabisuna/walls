@@ -32,7 +32,7 @@ const { setErrors, isSubmitting, handleSubmit, meta } = useForm({
 const onSubmit = handleSubmit(async (values: Record<any, any>) => {
   try {
     // Run login API
-    const { error, data } = await useBaseFetch('login', {
+    await useBaseFetch('login', {
       method: 'POST',
       body: {
         email: values.email,
