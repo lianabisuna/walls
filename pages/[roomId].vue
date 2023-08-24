@@ -213,6 +213,7 @@ function resizeTouchPanel(e: TouchEvent) {
 }
 
 function onPanelTouchstart(e: TouchEvent) {
+  e.preventDefault();
   touchstart.value++;
   const target = e.target as HTMLInputElement;
   if (!target.value) return;
