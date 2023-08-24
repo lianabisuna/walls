@@ -203,11 +203,8 @@ function resizeTouchPanel(e: TouchEvent) {
   e.stopPropagation();
 
   const target = e.target as HTMLInputElement;
-  if (!target.value) return;
-
   const rect = target.getBoundingClientRect();
   const y = e.touches[0].clientY - rect.bottom;
-
   const positionY = panelInitialPosition.value - y;
   panelHeight.value = panelInitialHeight.value + positionY;
 }
@@ -218,8 +215,8 @@ function onPanelTouchstart(e: TouchEvent) {
   const target = e.target as HTMLInputElement;
   if (!target.value) return;
   const rect = target.getBoundingClientRect();
-  const y = e.touches[0].clientY - rect.top;
-  const offsetY = (e.touches[0].clientY - window.scrollY - rect.top);
+  const y = e.touches[0].clientY - rect.bottom;
+  const offsetY = (e.touches[0].clientY - window.scrollY - rect.bottom);
 
   // Check if cursor is less than panel border
   if ( !(offsetY < PANEL_BORDER_SIZE) ) return;
@@ -239,6 +236,7 @@ onMounted(() => {
 <template>
   <NuxtLayout name="room">
     <div class="flex flex-col flex-grow bg-neutral-50 max-h-[calc(100vh-4rem)] overflow-hidden">
+
       <div class="flex-grow columns-1 md:columns-3 lg:columns-4 p-3 md:p-5 overflow-y-auto">
         <div
           v-for="message in roomStore.roomMessages"
