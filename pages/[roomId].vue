@@ -221,7 +221,7 @@ function onPanelTouchstart(e: TouchEvent) {
   const offsetY = (e.touches[0].clientY - window.scrollY - rect.top);
 
   // Check if cursor is less than panel border
-  if ( !(offsetY < PANEL_BORDER_SIZE) ) return;
+  // if ( !(offsetY < PANEL_BORDER_SIZE) ) return;
 
   panelInitialPosition.value = y;
   panelInitialHeight.value = panelHeight.value;
