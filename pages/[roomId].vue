@@ -203,6 +203,7 @@ onMounted(() => {
 })
 
 function resizeTouchPanel(e: TouchEvent) {
+  e.preventDefault();
   touchmove.value++;
   const target = e.target as HTMLInputElement;
   if (!target.value) return;
