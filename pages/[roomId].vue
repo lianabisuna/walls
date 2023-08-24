@@ -214,7 +214,6 @@ function resizeTouchPanel(e: TouchEvent) {
 }
 
 function onPanelTouchstart(e: TouchEvent) {
-  e.preventDefault();
   touchstart.value++;
   const target = e.target as HTMLInputElement;
   if (!target.value) return;
@@ -227,7 +226,8 @@ function onPanelTouchstart(e: TouchEvent) {
 
   panelInitialPosition.value = y;
   panelInitialHeight.value = panelHeight.value;
-  useEventListener(document, 'touchmove', resizeTouchPanel);
+  document.addEventListener('touchmove', resizeTouchPanel, false);
+  // useEventListener(document, 'touchmove', resizeTouchPanel);
 }
 
 onMounted(() => {
