@@ -247,7 +247,7 @@ onMounted(() => {
       <div
         ref="panelRef"
         class="
-          relative mt-auto bg-light flex flex-col px-3 pb-3 pt-2 md:px-5 md:pb-0 md:pt-8 border-t border-neutral-200 pointer-events-none flex-shrink-0
+          relative mt-auto bg-light flex flex-col px-5 pb-0 pt-8 border-t border-neutral-200 pointer-events-none flex-shrink-0
           after:w-full after:h-5 after:absolute after:top-0 after:left-0 after:cursor-n-resize after:pointer-events-auto
           before:w-12 before:h-1 before:absolute before:top-2 before:left-1/2 before:-translate-x-1/2 before:cursor-n-resize before:pointer-events-auto before:z-[1] before:rounded-full before:bg-neutral-500 hover:before:bg-neutral-600
         "
