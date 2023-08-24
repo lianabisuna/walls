@@ -216,10 +216,10 @@ function resizeTouchPanel(e: TouchEvent) {
     return;
   };
   const rect = target.getBoundingClientRect();
-  const y = e.touches[0].clientY - rect.top;
+  const y = e.touches[0].clientY - rect.bottom;
   const positionY = panelInitialPosition.value - y;
   panelHeight.value = panelInitialHeight.value + positionY;
-  displayText.value = `changes detected: e.touches[0].clientY=${e.touches[0].clientY} | rect.top=${rect.top} | y=${y} | panelInitialPosition.value=${panelInitialPosition.value} | positionY=${positionY} | panelHeight=${panelHeight.value}`;
+  displayText.value = `changes detected: e.touches[0].clientY=${e.touches[0].clientY} | rect.bottom=${rect.bottom} | y=${y} | panelInitialPosition.value=${panelInitialPosition.value} | positionY=${positionY} | panelHeight=${panelHeight.value}`;
 }
 
 function onPanelTouchstart(e: TouchEvent) {
@@ -229,8 +229,8 @@ function onPanelTouchstart(e: TouchEvent) {
   const target = e.target as HTMLInputElement;
   if (!target.value) return;
   const rect = target.getBoundingClientRect();
-  const y = e.touches[0].clientY - rect.top;
-  const offsetY = (e.touches[0].clientY - window.scrollY - rect.top);
+  const y = e.touches[0].clientY - rect.bottom;
+  const offsetY = (e.touches[0].clientY - window.scrollY - rect.bottom);
 
   // Check if cursor is less than panel border
   if ( !(offsetY < PANEL_BORDER_SIZE) ) return;
