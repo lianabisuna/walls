@@ -178,7 +178,7 @@ const panelInitialHeight = ref(0);
 
 const panelHeight = ref(0);
 
-function resizePanel(e: MouseEvent) {
+function resizeMousePanel(e: MouseEvent) {
   const positionY = panelInitialPosition.value - e.y;
   panelHeight.value = panelInitialHeight.value + positionY;
 }
@@ -189,12 +189,42 @@ function onPanelMousedown(e: MouseEvent) {
 
   panelInitialPosition.value = e.y;
   panelInitialHeight.value = panelHeight.value;
-  useEventListener(document, 'mousemove', resizePanel);
+  useEventListener(document, 'mousemove', resizeMousePanel);
 }
 
 onMounted(() => {
   useEventListener(document, 'mouseup', (e) => {
-    document.removeEventListener('mousemove', resizePanel, false);
+    document.removeEventListener('mousemove', resizeMousePanel, false);
+  });
+})
+
+function onPanelTouchstart(e: TouchEvent) {
+  const target = e.target as HTMLInputElement;
+  if (!target.value) return;
+  const rect = target.getBoundingClientRect();
+  const offsetY = (e.touches[0].clientY - window.scrollY - rect.top);
+  const y = e.touches[0].clientY - rect.top;
+
+  // Check if cursor is less than panel border
+  if ( !(offsetY < PANEL_BORDER_SIZE) ) return;
+
+  panelInitialPosition.value = y;
+  panelInitialHeight.value = panelHeight.value;
+  useEventListener(document, 'touchmove', resizeTouchPanel);
+}
+
+function resizeTouchPanel(e: TouchEvent) {
+  const target = e.target as HTMLInputElement;
+  if (!target.value) return;
+  const rect = target.getBoundingClientRect();
+  const y = e.touches[0].clientY - rect.top;
+  const positionY = panelInitialPosition.value - y;
+  panelHeight.value = panelInitialHeight.value + positionY;
+}
+
+onMounted(() => {
+  useEventListener(document, 'touchend', (e) => {
+    document.removeEventListener('touchstart', resizeTouchPanel, false);
   });
 })
 </script>
@@ -223,6 +253,7 @@ onMounted(() => {
         "
         :style="{ 'height': `${panelHeight}px` }"
         @mousedown="onPanelMousedown"
+        @touchstart="onPanelTouchstart"
       >
         <form
           @submit="onSubmit"
