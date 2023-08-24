@@ -216,10 +216,10 @@ function resizeTouchPanel(e: TouchEvent) {
     return;
   };
   const rect = target.getBoundingClientRect();
-  const y = e.touches[0].clientY - rect.bottom;
+  const y = e.touches[0].clientY - rect.top;
   const positionY = panelInitialPosition.value - y;
   panelHeight.value = panelInitialHeight.value + positionY;
-  displayText.value = `changes detected: e.touches[0].clientY=${e.touches[0].clientY} | rect.bottom=${rect.bottom} | y=${y} | panelInitialPosition.value=${panelInitialPosition.value} | positionY=${positionY} | panelHeight=${panelHeight.value}`;
+  displayText.value = `changes detected: e.touches[0].clientY=${e.touches[0].clientY} | rect.top=${rect.top} | y=${y} | panelInitialPosition.value=${panelInitialPosition.value} | positionY=${positionY} | panelHeight=${panelHeight.value}`;
 }
 
 function onPanelTouchstart(e: TouchEvent) {
