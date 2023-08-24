@@ -206,9 +206,12 @@ onMounted(() => {
 
 function resizeTouchPanel(e: TouchEvent) {
   e.preventDefault();
+  e.stopPropagation();
   touchmove.value++;
-  const target = e.target as HTMLInputElement;
-  if (!target.value) {
+  var changedTouch = e.changedTouches[0];
+  var target = document.elementFromPoint(changedTouch.clientX, changedTouch.clientY);
+
+  if (!target) {
     displayText.value = `no changes detected`;
     return;
   };
