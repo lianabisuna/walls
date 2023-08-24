@@ -235,6 +235,10 @@ onMounted(() => {
     touchend.value++;
     document.removeEventListener('touchmove', resizeTouchPanel);
   });
+
+  useEventListener(document, 'touchmove', () => {
+    touchmove.value++;
+  });
 })
 </script>
 
