@@ -215,6 +215,9 @@ function resizeTouchPanel(e: TouchEvent) {
 
 function onPanelTouchstart(e: TouchEvent) {
   touchstart.value++;
+  document.addEventListener('touchmove', resizeTouchPanel);
+  useEventListener(document, 'touchmove', resizeTouchPanel);
+  
   const target = e.target as HTMLInputElement;
   if (!target.value) return;
   const rect = target.getBoundingClientRect();
@@ -222,22 +225,18 @@ function onPanelTouchstart(e: TouchEvent) {
   const offsetY = (e.touches[0].clientY - window.scrollY - rect.top);
 
   // Check if cursor is less than panel border
-  // if ( !(offsetY < PANEL_BORDER_SIZE) ) return;
+  if ( !(offsetY < PANEL_BORDER_SIZE) ) return;
 
   panelInitialPosition.value = y;
   panelInitialHeight.value = panelHeight.value;
   document.addEventListener('touchmove', resizeTouchPanel);
-  // useEventListener(document, 'touchmove', resizeTouchPanel);
+  useEventListener(document, 'touchmove', resizeTouchPanel);
 }
 
 onMounted(() => {
   useEventListener(document, 'touchend', (e) => {
     touchend.value++;
     document.removeEventListener('touchmove', resizeTouchPanel);
-  });
-
-  useEventListener(document, 'touchmove', () => {
-    touchmove.value++;
   });
 })
 </script>
