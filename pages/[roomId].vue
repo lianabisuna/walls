@@ -169,12 +169,6 @@ const onSubmit = handleSubmit(async (values: Record<any, any>) => {
 
 /** RESIZE MESSAGE PANEL */
 
-// Test
-const touchstart = ref(0);
-const touchmove = ref(0);
-const touchend = ref(0);
-const displayText = ref('');
-
 const PANEL_BORDER_SIZE = 20;
 
 const panelRef = ref<HTMLElement>();
@@ -207,30 +201,25 @@ onMounted(() => {
 function resizeTouchPanel(e: TouchEvent) {
   e.preventDefault();
   e.stopPropagation();
-  touchmove.value++;
-  var changedTouch = e.changedTouches[0];
-  var target = document.elementFromPoint(changedTouch.clientX, changedTouch.clientY);
 
-  if (!target) {
-    displayText.value = `no changes detected`;
-    return;
-  };
+  const target = e.target as HTMLInputElement;
+  if (!target.value) return;
+
   const rect = target.getBoundingClientRect();
-  const y = e.touches[0].clientY - rect.top;
+  const y = e.touches[0].clientY - rect.bottom;
+
   const positionY = panelInitialPosition.value - y;
   panelHeight.value = panelInitialHeight.value + positionY;
-  displayText.value = `changes detected: e.touches[0].clientY=${e.touches[0].clientY} | rect.top=${rect.top} | y=${y} | panelInitialPosition.value=${panelInitialPosition.value} | positionY=${positionY} | panelHeight=${panelHeight.value}`;
 }
 
 function onPanelTouchstart(e: TouchEvent) {
-  touchstart.value++;
   useEventListener(document, 'touchmove', resizeTouchPanel);
 
   const target = e.target as HTMLInputElement;
   if (!target.value) return;
   const rect = target.getBoundingClientRect();
-  const y = e.touches[0].clientY - rect.bottom;
-  const offsetY = (e.touches[0].clientY - window.scrollY - rect.bottom);
+  const y = e.touches[0].clientY - rect.top;
+  const offsetY = (e.touches[0].clientY - window.scrollY - rect.top);
 
   // Check if cursor is less than panel border
   if ( !(offsetY < PANEL_BORDER_SIZE) ) return;
@@ -242,7 +231,6 @@ function onPanelTouchstart(e: TouchEvent) {
 
 onMounted(() => {
   useEventListener(document, 'touchend', (e) => {
-    touchend.value++;
     document.removeEventListener('touchmove', resizeTouchPanel);
   });
 })
@@ -251,21 +239,6 @@ onMounted(() => {
 <template>
   <NuxtLayout name="room">
     <div class="flex flex-col flex-grow bg-neutral-50 max-h-[calc(100vh-4rem)] overflow-hidden">
-      <!-- Test -->
-      <div class="flex gap-x-5 p-5">
-        <div class="text-red-500">touchstart: {{ touchstart }}</div>
-        <div class="text-blue-500">touchmove: {{ touchmove }}</div>
-        <div class="text-green-500">touchend: {{ touchend }}</div>
-      </div>
-      <div class="flex gap-x-5 p-5">
-        <div class="text-red-500">panelHeight: {{ panelHeight }}</div>
-        <div class="text-blue-500">panelInitialPosition: {{ panelInitialPosition }}</div>
-        <div class="text-green-500">panelInitialHeight: {{ panelInitialHeight }}</div>
-      </div>
-      <div class="flex gap-x-5 p-5">
-        <div class="text-red-500">displayText: {{ displayText }}</div>
-      </div>
-
       <div class="flex-grow columns-1 md:columns-3 lg:columns-4 p-3 md:p-5 overflow-y-auto">
         <div
           v-for="message in roomStore.roomMessages"
