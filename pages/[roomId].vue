@@ -198,6 +198,15 @@ onMounted(() => {
   });
 })
 
+function resizeTouchPanel(e: TouchEvent) {
+  const target = e.target as HTMLInputElement;
+  if (!target.value) return;
+  const rect = target.getBoundingClientRect();
+  const y = e.touches[0].clientY - rect.top;
+  const positionY = panelInitialPosition.value - y;
+  panelHeight.value = panelInitialHeight.value + positionY;
+}
+
 function onPanelTouchstart(e: TouchEvent) {
   const target = e.target as HTMLInputElement;
   if (!target.value) return;
@@ -213,18 +222,9 @@ function onPanelTouchstart(e: TouchEvent) {
   useEventListener(document, 'touchmove', resizeTouchPanel);
 }
 
-function resizeTouchPanel(e: TouchEvent) {
-  const target = e.target as HTMLInputElement;
-  if (!target.value) return;
-  const rect = target.getBoundingClientRect();
-  const y = e.touches[0].clientY - rect.top;
-  const positionY = panelInitialPosition.value - y;
-  panelHeight.value = panelInitialHeight.value + positionY;
-}
-
 onMounted(() => {
   useEventListener(document, 'touchend', (e) => {
-    document.removeEventListener('touchstart', resizeTouchPanel, false);
+    document.removeEventListener('touchmove', resizeTouchPanel, false);
   });
 })
 </script>
