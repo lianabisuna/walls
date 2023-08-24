@@ -226,14 +226,14 @@ function onPanelTouchstart(e: TouchEvent) {
 
   panelInitialPosition.value = y;
   panelInitialHeight.value = panelHeight.value;
-  document.addEventListener('touchmove', resizeTouchPanel, false);
+  document.addEventListener('touchmove', resizeTouchPanel);
   // useEventListener(document, 'touchmove', resizeTouchPanel);
 }
 
 onMounted(() => {
   useEventListener(document, 'touchend', (e) => {
     touchend.value++;
-    document.removeEventListener('touchmove', resizeTouchPanel, false);
+    document.removeEventListener('touchmove', resizeTouchPanel);
   });
 })
 </script>
