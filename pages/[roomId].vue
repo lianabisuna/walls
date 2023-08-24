@@ -259,6 +259,9 @@ onMounted(() => {
         <div class="text-blue-500">panelInitialPosition: {{ panelInitialPosition }}</div>
         <div class="text-green-500">panelInitialHeight: {{ panelInitialHeight }}</div>
       </div>
+      <div class="flex gap-x-5 p-5">
+        <div class="text-red-500">displayText: {{ displayText }}</div>
+      </div>
 
       <div class="flex-grow columns-1 md:columns-3 lg:columns-4 p-3 md:p-5 overflow-y-auto">
         <div
