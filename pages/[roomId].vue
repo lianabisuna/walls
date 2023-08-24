@@ -173,6 +173,7 @@ const onSubmit = handleSubmit(async (values: Record<any, any>) => {
 const touchstart = ref(0);
 const touchmove = ref(0);
 const touchend = ref(0);
+const displayText = ref('');
 
 const PANEL_BORDER_SIZE = 20;
 
@@ -207,11 +208,15 @@ function resizeTouchPanel(e: TouchEvent) {
   e.preventDefault();
   touchmove.value++;
   const target = e.target as HTMLInputElement;
-  if (!target.value) return;
+  if (!target.value) {
+    displayText.value = `no changes detected`;
+    return;
+  };
   const rect = target.getBoundingClientRect();
   const y = e.touches[0].clientY - rect.top;
   const positionY = panelInitialPosition.value - y;
   panelHeight.value = panelInitialHeight.value + positionY;
+  displayText.value = `changes detected: e.touches[0].clientY=${e.touches[0].clientY} | rect.top=${rect.top} | y=${y} | panelInitialPosition.value=${panelInitialPosition.value} | positionY=${positionY} | panelHeight=${panelHeight.value}`;
 }
 
 function onPanelTouchstart(e: TouchEvent) {
