@@ -248,9 +248,6 @@ const pusher = new Pusher(config.public.pusher.appId, {
       authorize: async (socketId, callback) => {
         await useBaseFetch('broadast/auth', {
           method: 'POST',
-          headers: {
-            'Access-Control-Allow-Origin': '*',
-          },
           onResponse({ response }) {
             console.log('response', response._data);
             // callback()
