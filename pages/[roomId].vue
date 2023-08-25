@@ -2,6 +2,7 @@
 import { ErrorResponse, SuccessResponse } from 'services/types';
 import { RoomData, RoomMessagesData } from 'stores/roomStore';
 import * as Yup from 'yup';
+import Pusher from 'pusher-js';
 
 // Page Meta
 definePageMeta({
@@ -139,7 +140,7 @@ const onSubmit = handleSubmit(async (values: Record<any, any>) => {
       console.log(successResponse.message);
 
       // Navigate to login
-      alert('success');
+      // alert('success');
       return;
     }
 
@@ -159,7 +160,7 @@ const onSubmit = handleSubmit(async (values: Record<any, any>) => {
       //   password_confirmation: errorFields?.password_confirmation,
       // });
 
-      alert('failed');
+      // alert('failed');
     }
   } catch(e) {
     console.error(e);
@@ -231,6 +232,51 @@ onMounted(() => {
     document.removeEventListener('touchmove', resizeTouchPanel);
   });
 })
+
+
+/** PUSHER */
+const messages = ref([]);
+
+// Enable pusher logging - don't include this in production
+Pusher.logToConsole = true;
+
+const config = useRuntimeConfig();
+
+const pusher = new Pusher(config.public.pusher.appId, {
+  cluster: config.public.pusher.cluster,
+  authorizer: (channel, options) => ({
+      authorize: async (socketId, callback) => {
+        await useBaseFetch('broadast/auth', {
+          method: 'POST',
+          onResponse({ response }) {
+            console.log('response', response._data);
+            // callback()
+            // 1st - if may error, error or null
+            // 2nd respose from broadcast auth
+          },
+          onResponseError({ response }) {
+            console.log('response-error', response._data);
+          },
+        })
+      }
+  }),
+});
+
+console.log('pusher', config.public.pusher);
+
+var channel = pusher.subscribe(`presence-room.${route.params.roomId}`);
+
+channel.bind('MessageCreated', function(data: MessageCreatedResponse) {
+  console.log('MessageCreated', data);
+});
+
+channel.bind('MemberAdded', function(data: any) {
+  console.log('MemberAdded', data);
+});
+
+channel.bind('MemberRemoved', function(data: any) {
+  console.log('MemberRemoved', data);
+});
 </script>
 
 <template>
@@ -262,7 +308,7 @@ onMounted(() => {
       >
         <form
           @submit="onSubmit"
-          class="flex gap-x-3"
+          class="flex gap-x-3 pointer-events-auto"
           novalidate
         >
           <!-- Message -->
@@ -300,5 +346,17 @@ onMounted(() => {
 // Types
 interface CreateMessageForm {
   message: string;
+}
+
+interface MessageCreatedResponse {
+  message: {
+    id: number;
+    message: string;
+    room_id: number;
+    sender_id: number;
+    created_at: string;
+    updated_at: string;
+  },
+  roomId: number;
 }
 </script>

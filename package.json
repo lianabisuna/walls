@@ -23,6 +23,7 @@
     "@vueuse/nuxt": "^10.2.1",
     "axios": "^1.4.0",
     "pinia": "^2.1.4",
+    "pusher-js": "^8.3.0",
     "yup": "^1.2.0"
   },
   "overrides": {

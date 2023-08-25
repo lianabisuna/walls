@@ -20,6 +20,12 @@ useSeoMeta({
   keywords: "walls, freedom wall, anonymous, social media, social network, community, message, chat",
 });
 
+useHead({
+  bodyAttrs: {
+    class: 'overscroll-none overflow-hidden',
+  },
+});
+
 
 const roomStore = useRoomStore();
 
@@ -28,7 +34,7 @@ const router = useRouter();
 </script>
 
 <template>
-  <div class="flex flex-col min-h-screen font-inter font-medium text-dark text-sm">
+  <div class="flex flex-col h-full font-inter font-medium text-dark text-sm">
     <!-- Header -->
 		<header class="flex items-center justify-between h-16 bg-light border-b border-neutral-200 pr-3 md:pr-5">
       <div class="flex items-center">
@@ -121,3 +127,9 @@ const router = useRouter();
     </main>
   </div>
 </template>
+
+<style>
+html, body, #__nuxt {
+  height: 100%;
+}
+</style>
