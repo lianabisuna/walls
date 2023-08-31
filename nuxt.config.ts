@@ -1,5 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  css: ['~/assets/styles/app.css'],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
   devtools: { enabled: true },
   modules: [
     '@nuxtjs/tailwindcss',
@@ -23,7 +30,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      baseURL: process.env.BASE_URL || 'https://ec2-18-141-234-79.ap-southeast-1.compute.amazonaws.com/api/',
+      baseURL: process.env.APP_BASE_URL || 'https://ec2-18-141-234-79.ap-southeast-1.compute.amazonaws.com/api/',
       pusher: {
         appId: process.env.PUSHER_APP_ID,
         key: process.env.PUSHER_APP_KEY,
