@@ -148,7 +148,7 @@ onMounted(async () => {
     <div class="flex-grow bg-light p-5 md:p-10 grid grid-cols-4 gap-5 md:gap-7">
       <div class="col-span-full md:col-span-3 flex flex-col gap-5 md:gap-10">
         <!-- Filters -->
-        <div class="flex">
+        <!-- <div class="flex">
           <AppFormInput
             placeholder="Search"
             block
@@ -156,7 +156,7 @@ onMounted(async () => {
             background-color="neutral-100"
           >
           </AppFormInput>
-        </div>
+        </div> -->
 
         <!-- Rooms -->
         <div
@@ -189,16 +189,16 @@ onMounted(async () => {
         </div>
       </div>
       
-      <div class="h-fit col-span-full md:col-span-1 bg-neutral-100 rounded-sm p-3 md:p-5">
+      <!-- <div class="h-fit col-span-full md:col-span-1 bg-neutral-100 rounded-sm p-3 md:p-5"> -->
         <!-- Members -->
-        <div class="flex flex-wrap gap-1.5">
+        <!-- <div class="flex flex-wrap gap-1.5">
           <AppTooltip
             v-for="user in usersData"
             :hex-color="user.color"
           >
             <template #trigger>
               <AppAvatar
-                :hex-color="user.color"
+                :hex-color="user.color || '#7158d7'"
                 :active="!!user.is_active"
               >
               </AppAvatar>
@@ -207,8 +207,8 @@ onMounted(async () => {
               <span>{{ user.username }}</span>
             </template>
           </AppTooltip>
-        </div>
-      </div>
+        </div> -->
+      <!-- </div> -->
     </div>
   </NuxtLayout>
 </template>

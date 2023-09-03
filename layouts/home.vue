@@ -19,6 +19,9 @@ useSeoMeta({
   twitterImage: META.IMAGE,
   keywords: "walls, freedom wall, anonymous, social media, social network, community, message, chat",
 });
+
+// Authentication Store
+const userStore = useAuthenticationStore();
 </script>
 
 <template>
@@ -40,7 +43,7 @@ useSeoMeta({
 
         <!-- Profile -->
         <AppAvatar
-          hex-color="#ffcc00"
+          :hex-color="userStore.user.user.color || '#d4d4d4'"
           active
         >
         </AppAvatar>
