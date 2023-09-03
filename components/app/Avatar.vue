@@ -4,7 +4,7 @@ import { AvatarSize, HexColor } from './types';
 // Props
 const props = defineProps({
   src: { type: String as PropType<string>, default: '' },
-  hexColor: { type: String as PropType<HexColor>, default: '' },
+  hexColor: { type: String as PropType<HexColor>, default: '#7158d7' },
   size: { type: String as PropType<AvatarSize>, default: '' },
   active: { type: Boolean as PropType<boolean>, default: false },
 })

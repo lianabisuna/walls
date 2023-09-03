@@ -18,7 +18,7 @@ const route = useRoute();
 /** ROOM DATA */
 
 const roomStore = useRoomStore();
-const { setRoom, setRoomMessages } = roomStore;
+const { setRoom, setRoomMessages, addRoomMessage } = roomStore;
 
 const roomLoading = ref(true);
 
@@ -235,7 +235,6 @@ onMounted(() => {
 
 
 /** PUSHER */
-const messages = ref([]);
 
 // Enable pusher logging - don't include this in production
 Pusher.logToConsole = true;
@@ -246,28 +245,32 @@ const pusher = new Pusher(config.public.pusher.appId, {
   cluster: config.public.pusher.cluster,
   authorizer: (channel, options) => ({
       authorize: async (socketId, callback) => {
-        await useBaseFetch('broadast/auth', {
+        await useBaseFetch('broadcasting/auth', {
           method: 'POST',
+          body: {
+            socket_id: socketId,
+            channel_name: channel.name,
+          },
           onResponse({ response }) {
-            console.log('response', response._data);
-            // callback()
-            // 1st - if may error, error or null
-            // 2nd respose from broadcast auth
+            callback(null, response._data);
           },
           onResponseError({ response }) {
-            console.log('response-error', response._data);
+            callback(response._data, response._data);
           },
         })
       }
   }),
 });
 
-console.log('pusher', config.public.pusher);
-
 var channel = pusher.subscribe(`presence-room.${route.params.roomId}`);
 
+// channel.bind('pusher:subscription_succeeded', function(data: any) {
+//   console.log('pusher:subscription_succeeded', data);
+// });
+
+
 channel.bind('MessageCreated', function(data: MessageCreatedResponse) {
-  console.log('MessageCreated', data);
+  addRoomMessage(data.message);
 });
 
 channel.bind('MemberAdded', function(data: any) {
@@ -349,14 +352,7 @@ interface CreateMessageForm {
 }
 
 interface MessageCreatedResponse {
-  message: {
-    id: number;
-    message: string;
-    room_id: number;
-    sender_id: number;
-    created_at: string;
-    updated_at: string;
-  },
+  message: RoomMessagesData,
   roomId: number;
 }
 </script>

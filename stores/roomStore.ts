@@ -20,11 +20,16 @@ export const useRoomStore = defineStore('room', () => {
     roomMessages.value = value;
   }
 
+  function addRoomMessage(value: RoomMessagesData) {
+    roomMessages.value.push(value);
+  }
+
   return {
     room,
     setRoom,
     roomMessages,
     setRoomMessages,
+    addRoomMessage,
   }
 });
 

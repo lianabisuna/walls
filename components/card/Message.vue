@@ -19,7 +19,7 @@ const liked = ref(false);
 <template>
 	<div
 		class="group relative rounded-sm text-white p-3"
-		:style="{ 'backgroundColor': user.color }"
+		:style="{ 'backgroundColor': user.color || '#7158d7' }"
 	>
 		<div class="break-inside-avoid-column">
 			<div class="leading-relaxed">{{ _message.message }}</div>
