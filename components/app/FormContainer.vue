@@ -10,6 +10,7 @@ const props = defineProps({
   backgroundColor: { type: String as PropType<TailwindColor>, default: 'light' },
   borderColor: { type: String as PropType<TailwindColor>, default: 'neutral-500' },
   color: { type: String as PropType<TailwindColor>, default: 'primary-500' },
+  hideDetails: { type: Boolean as PropType<boolean>, default: false },
   error: { type: Boolean as PropType<boolean>, default: false },
   success: { type: Boolean as PropType<boolean>, default: false },
   label: { type: String as PropType<string>, default: '' },
@@ -76,7 +77,7 @@ function onClickContainer() {
           sizeClass,
           props.inputContainerClass,
           `bg-${props.backgroundColor}`,
-          props.error || !!fieldData.errorMessage
+          !props.hideDetails && (props.error || !!fieldData.errorMessage) 
             ? 'border border-error-500 group-focus-within:border-error-500'
             : props.success
               ? 'border border-success-500 group-focus-within:border-success-500'
@@ -92,7 +93,7 @@ function onClickContainer() {
       </div>
       <!-- Message -->
       <AppFormMessage
-        v-if="props.message || fieldData.errorMessage"
+        v-if="!props.hideDetails && (props.message || fieldData.errorMessage)"
         :error="props.error || !!fieldData.errorMessage"
         :success="props.success"
       >

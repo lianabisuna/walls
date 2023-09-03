@@ -118,8 +118,12 @@ const { isSubmitting, handleSubmit } = useForm({
   validationSchema: schema,
 });
 
+const { value: message } = useField('message');
+
 const onSubmit = handleSubmit(async (values: Record<any, any>) => {
   try {
+    message.value = '';
+    
     // Run register API
     const { error, data } = await useBaseFetch(`chat/rooms/${route.params.roomId}/messages`, {
       method: 'POST',
@@ -177,7 +181,7 @@ const panelRef = ref<HTMLElement>();
 const panelInitialPosition = ref(0);
 const panelInitialHeight = ref(0);
 
-const panelHeight = ref(0);
+const panelHeight = ref(120);
 
 function resizeMousePanel(e: MouseEvent) {
   const positionY = panelInitialPosition.value - e.y;
@@ -241,7 +245,7 @@ Pusher.logToConsole = true;
 
 const config = useRuntimeConfig();
 
-const pusher = new Pusher(config.public.pusher.appId, {
+const pusher = new Pusher(config.public.pusher.key, {
   cluster: config.public.pusher.cluster,
   authorizer: (channel, options) => ({
       authorize: async (socketId, callback) => {
@@ -323,6 +327,7 @@ channel.bind('MemberRemoved', function(data: any) {
             input-container-class="group-focus-within:border-transparent"
             :disabled="isSubmitting"
             :loading="isSubmitting"
+            hide-details
             block
           >
           </AppFormInput>
@@ -330,12 +335,15 @@ channel.bind('MemberRemoved', function(data: any) {
           <!-- Send -->
           <button
             type="submit"
-            :disabled="isSubmitting"
+            :disabled="isSubmitting || !message"
             :loading="isSubmitting"
           >
             <Icon
               name="fe:paper-plane"
               class="h-7 w-7 text-primary-500"
+              :class="[
+                { 'opacity-75 pointer-events-none': !message },
+              ]"
             >
             </Icon>
           </button>

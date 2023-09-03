@@ -16,6 +16,7 @@ const props = defineProps({
   backgroundColor: { type: String as PropType<TailwindColor>, default: 'light' },
   borderColor: { type: String as PropType<TailwindColor>, default: 'neutral-500' },
   color: { type: String as PropType<TailwindColor>, default: 'primary-500' },
+  hideDetails: { type: Boolean as PropType<boolean>, default: false },
   error: { type: Boolean as PropType<boolean>, default: false },
   success: { type: Boolean as PropType<boolean>, default: false },
   label: { type: String as PropType<string>, default: '' },
@@ -63,6 +64,7 @@ const sizeClass = computed(() => {
     :background-color="props.backgroundColor"
     :border-color="props.borderColor"
     :color="props.color"
+    :hide-details="props.hideDetails"
     :error="props.error"
     :success="props.success"
     :label="props.label"
